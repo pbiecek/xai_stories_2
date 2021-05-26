@@ -1,0 +1,8 @@
+Package: xai-stories
+Title: XAI Stories. Case studies for eXplainable Artificial Intelligence
+Version: 0.0.2
+Depends:
+  devtools,
+  knitr,
+  bookdown,
+  DALEX,
