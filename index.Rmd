@@ -36,6 +36,8 @@ The simulations, data examples and visualizations were created with R [@rlang] a
 The book was compiled with the [bookdown](https://bookdown.org/) package.
 We collaborated using [github repository](https://github.com/pbiecek/xai_stories_2).
 
+Cover by [kozaka93](github.com/kozaka93).
+
 ![Creative Commons License](images/by-nc-sa.png)
 
 This book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
