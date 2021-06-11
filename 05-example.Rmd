@@ -1,6 +1,6 @@
-# Team 5 - Embedding-based model for product recommendations.
+# Team 5
 
-
+*Embedding-based model for product recommendations.*
 
 *Authors: Andrzej Zapała (University of Warsaw), Jakub Modrzewski (University of Warsaw), Piotr Duszak (University of Warsaw)*
 
