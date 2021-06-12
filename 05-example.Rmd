@@ -68,7 +68,12 @@ We used explanations for two reasons. First to proof our clasterization has sens
 ### Lime
 
 Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.
+
+Below you can see first explanation. This is explanation why this two items belongs to this cluster. As you can see main reasons are words "drzwi" and "bambusowy". And this makes perfect sens. What is worth noticing our clusterization works for polish and czech language.
 ![](./images/05-Lime_drzwi.jpg "Lime dla klastra z drzwiami")
+
+And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is "XL" (which is size). Someone could tell "this is good, people with size XL would buy XL clothes". But we also have here motorcycle cover.
+![](./images/05-Lime_XL.jpg "Lime dla klastra z XL")
 
 ### Shap
 
