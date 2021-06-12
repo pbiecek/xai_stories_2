@@ -63,9 +63,12 @@ To reduce dimensionality of the forementioned vector space we used UMAP, and the
 
 ---
 
+We used explanations for two reasons. First to proof our clasterization has sense and also possibly to find some bugs and improve it. We applied two techniques: LIME and SHAP.
+
 ### Lime
 
-![no image](./images/05-Lime_drzwi.jpg "Lime dla klastra z drzwiami")
+Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.
+![](./images/05-Lime_drzwi.jpg "Lime dla klastra z drzwiami")
 
 ### Shap
 

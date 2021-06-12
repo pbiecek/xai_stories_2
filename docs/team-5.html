@@ -185,12 +185,10 @@
 <div id="explanations-4" class="section level2">
 <h2><span class="header-section-number">5.3</span> Explanations</h2>
 <hr />
+<p>We used explanations for two reasons. First to proof our clasterization has sense and also possibly to find some bugs and improve it. We applied two techniques: LIME and SHAP.</p>
 <div id="lime" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Lime</h3>
-<div class="figure">
-<img src="images/05-Lime_drzwi.jpg" title="Lime dla klastra z drzwiami" alt="no image" />
-<p class="caption">no image</p>
-</div>
+<p>Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results. <img src="images/05-Lime_drzwi.jpg" title="Lime dla klastra z drzwiami" /></p>
 </div>
 <div id="shap" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Shap</h3>
