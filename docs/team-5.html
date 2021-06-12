@@ -138,7 +138,7 @@
             <section class="normal" id="section-">
 <div id="team-5" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> Team 5</h1>
-<p><em>Embedding-based model for product recommendations.</em></p>
+<p><strong>Embedding-based model for product recommendations.</strong></p>
 <p><em>Authors: Andrzej Zapała (University of Warsaw), Jakub Modrzewski (University of Warsaw), Piotr Duszak (University of Warsaw)</em></p>
 <p><em>Mentors: Jakub Tyrek (McKinsey), Wyszomir Janikowski (McKinsey)</em></p>
 <div id="introduction-4" class="section level2">
@@ -189,8 +189,13 @@
 <div id="lime" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Lime</h3>
 <p>Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.</p>
-<p>Below you can see first explanation. This is explanation why this two items belongs to this cluster. As you can see main reasons are words &quot;drzwi&quot; and &quot;bambusowy&quot;. And this makes perfect sens. What is worth noticing our clusterization works for polish and czech language. <img src="images/05-Lime_drzwi.jpg" title="Lime dla klastra z drzwiami" /></p>
-<p>And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is &quot;XL&quot; (which is size). Someone could tell &quot;this is good, people with size XL would buy XL clothes&quot;. But we also have here motorcycle cover. <img src="./images/05-Lime_XL.jpg" title="Lime dla klastra z XL" /></p>
+<p>Below you can see first explanation. This is explanation why this two items belongs to this cluster. As you can see main reasons are words &quot;drzwi&quot; and &quot;bambusowy&quot;. And this makes perfect sens. What is worth noticing our clusterization works for polish and czech language.</p>
+<p><img src="images/05-Lime_drzwi.jpg" title="Lime dla klastra z drzwiami" /> And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is &quot;XL&quot; (which is size). Someone could tell &quot;this is good, people with size XL would buy XL clothes&quot;. But we also have here motorcycle cover.</p>
+<p><img src="images/05-Lime_XL.jpg" title="Lime dla klastra z XL" /> So we tried improve out clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is &quot;motor&quot; or &quot;motocykl&quot;. What again makes perfect sens.</p>
+<div class="figure">
+<img src="images/05-Lime_motor.jpg" title="Lime dla klastra z motorami" />
+
+</div>
 </div>
 <div id="shap" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Shap</h3>
