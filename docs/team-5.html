@@ -110,7 +110,6 @@
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="team-5.html"><a href="team-5.html#explanations-4"><i class="fa fa-check"></i><b>5.3</b> Explanations</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="team-5.html"><a href="team-5.html#lime"><i class="fa fa-check"></i><b>5.3.1</b> Lime</a></li>
-<li class="chapter" data-level="5.3.2" data-path="team-5.html"><a href="team-5.html#shap"><i class="fa fa-check"></i><b>5.3.2</b> Shap</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="team-5.html"><a href="team-5.html#summary-and-conclusions-4"><i class="fa fa-check"></i><b>5.4</b> Summary and conclusions</a></li>
 </ul></li>
@@ -191,14 +190,9 @@
 <p>Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.</p>
 <p>Below you can see first explanation. This is explanation why this two items belongs to this cluster. As you can see main reasons are words &quot;drzwi&quot; and &quot;bambusowy&quot;. And this makes perfect sens. What is worth noticing our clusterization works for polish and czech language.</p>
 <p><img src="images/05-Lime_drzwi.jpg" title="Lime dla klastra z drzwiami" /> And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is &quot;XL&quot; (which is size). Someone could tell &quot;this is good, people with size XL would buy XL clothes&quot;. But we also have here motorcycle cover.</p>
-<p><img src="images/05-Lime_XL.jpg" title="Lime dla klastra z XL" /> So we tried improve out clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is &quot;motor&quot; or &quot;motocykl&quot;. What again makes perfect sens.</p>
-<div class="figure">
-<img src="images/05-Lime_motor.jpg" title="Lime dla klastra z motorami" />
-
-</div>
-</div>
-<div id="shap" class="section level3">
-<h3><span class="header-section-number">5.3.2</span> Shap</h3>
+<p><img src="images/05-Lime_XL.jpg" title="Lime dla klastra z XL" /> So we tried improve our clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is &quot;motor&quot; or &quot;motocykl&quot;. What again makes perfect sens.</p>
+<p><img src="images/05-Lime_motor.jpg" title="Lime dla klastra z motorami" /> But also this time there are some &quot;bad&quot; clusters. Below is example, where most important word is red (in polish and in czech language).</p>
+<p><img src="images/05-Lime_czerw.jpg" title="Lime dla klastra z kolorami" /> ### Shap</p>
 <p>TODO</p>
 </div>
 </div>

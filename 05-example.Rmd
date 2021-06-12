@@ -75,10 +75,12 @@ Below you can see first explanation. This is explanation why this two items belo
 And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is "XL" (which is size). Someone could tell "this is good, people with size XL would buy XL clothes". But we also have here motorcycle cover.
 
 ![](./images/05-Lime_XL.jpg "Lime dla klastra z XL")
-So we tried improve out clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is "motor" or "motocykl". What again makes perfect sens.
+So we tried improve our clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is "motor" or "motocykl". What again makes perfect sens.
 
 ![](./images/05-Lime_motor.jpg "Lime dla klastra z motorami")
+But also this time there are some "bad" clusters. Below is example, where most important word is red (in polish and in czech language).
 
+![](./images/05-Lime_czerw.jpg "Lime dla klastra z kolorami")
 ### Shap
 
 TODO
