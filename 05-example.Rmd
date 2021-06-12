@@ -65,7 +65,7 @@ To reduce dimensionality of the forementioned vector space we used UMAP, and the
 
 ### Lime
 
-TODO
+![no image](./images/05-Lime_drzwi.jpg "Lime dla klastra z drzwiami")
 
 ### Shap
 
