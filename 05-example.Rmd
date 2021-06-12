@@ -63,24 +63,26 @@ To reduce dimensionality of the forementioned vector space we used UMAP, and the
 
 ---
 
-We used explanations for two reasons. First to proof our clasterization has sense and also possibly to find some bugs and improve it. We applied two techniques: LIME and SHAP.
+We used explanations for two reasons. First, to prove our clusterization has sense and also possibly to find some bugs and improve it. We applied two techniques: LIME and SHAP.
 
 ### Lime
 
-Because LIME needs probabilities we had to invent some method to generate probablities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.
+Because LIME needs probabilities we had to invent some method to generate probabilities for new items. We tested two: euclidean distances from middles of clusters and votes in KNN classifier. The latter gave better results.
 
-Below you can see first explanation. This is explanation why this two items belongs to this cluster. As you can see main reasons are words "drzwi" and "bambusowy". And this makes perfect sens. What is worth noticing our clusterization works for polish and czech language.
+Below you can see the first explanation. This is an explanation of why these two items belong to this cluster. As you can see main reasons are the words "drzwi" and "bambusowy". And this makes perfect sense. What is worth noticing our clusterization works for polish and Czech language.
 
 ![](./images/05-Lime_drzwi.jpg "Lime dla klastra z drzwiami")
-And there are more such examples. But unfortunatly (or maybe fortunatly) we also found some bad clusters. As you can see in the next picture this time the main reason is "XL" (which is size). Someone could tell "this is good, people with size XL would buy XL clothes". But we also have here motorcycle cover.
+And there are more such examples. But unfortunately (or maybe fortunately) we also found some bad clusters. As you can see in the next picture this time the main reason is "XL" (which is size). Someone could tell "this is good, people with size XL would buy XL clothes". But we also have here motorcycle cover.
 
 ![](./images/05-Lime_XL.jpg "Lime dla klastra z XL")
-So we tried improve our clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is "motor" or "motocykl". What again makes perfect sens.
+So we tried to improve our clustering by using preprocessing (clearing short words and numbers and lemmatization) on item descriptions. And some clusters are evidently better. This time the most important is "motor" or "motocykl". What again makes perfect sense.
 
 ![](./images/05-Lime_motor.jpg "Lime dla klastra z motorami")
-But also this time there are some "bad" clusters. Below is example, where most important word is red (in polish and in czech language).
+
+But also this time there are some "bad" clusters. Below is an example, where the most important word is red (in polish and Czech language).
 
 ![](./images/05-Lime_czerw.jpg "Lime dla klastra z kolorami")
+
 ### Shap
 
 TODO
