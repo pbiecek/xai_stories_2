@@ -26,5 +26,11 @@ summary-and-conclusions-3
 team-5
 introduction-4
 model-4
+dataset-and-pre-processing
+size-structure-and-issues
+ideas-exploration
+model-overview
 explanations-4
+lime
+shap
 summary-and-conclusions-4
