@@ -7,8 +7,23 @@
 
 
 ## Introduction 
+A constantly asked question is “How to improve sales?”. There are many factors which have an impact on sales. One of them could be weather which is why in this part we are going to analyse if weather have an actual impact on sales. Thanks to cooperation with Shumme S.A, orders on products of the company were provided as the dataset for this project. In particular, information such as date of the order (all orders were made between 2018 and 2021), country, zip code, product name, volume and price were further used to category selection and model construction. Additionally, dataset was extended by weather information and category of the products. Weather information such as daily average temperature and total daily precipitation were retrieved from the institute of meteorology and water management database. Using first digits of zip code information we divided our data into 10 regions which we matched with accumulated weather data we obtained. In the process of category selection we choose two categories which will be further analyzed and used in model. First group covers products which we can classify as garden product (mostly furniture and accessories), second group covers products which we can classify as home category (also furniture and accessories). We also filtered only these orders which were placed in Poland. Below is an overview of total sales (without splitting into categories), average temperature and precipitation.
 
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily total sales, average temperature, precipitation in milimiters'}
+knitr::include_graphics('images/sales_temperature_precipitation.png')
+```
+An overview of garden products sales and temperature: 
 
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily garden products sales vs average temperature}
+knitr::include_graphics('images/garden_sales.png')
+```
+
+Beside the description of the data and specification of the problem of this paper, following subjects will be covered: 
+- model construction
+- categories selection
+- model exploration 
+- instance-level exploration
+- summary.
 
 ## Model 
 
