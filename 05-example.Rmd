@@ -1,8 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+
 # Temperature vs sales predcition
 
 *Authors: Olaf Placha (University of Warsaw), Tomasz Kanas (University of Warsaw), Maciej Twardowski (University of Warsaw), Wiktoria Zapart (University of Lódź)*
