@@ -1,7 +1,7 @@
 
-# Temperature vs sales predcition
+# Temperature vs sales prediction
 
-*Authors: Olaf Placha (University of Warsaw), Tomasz Kanas (University of Warsaw), Maciej Twardowski (University of Warsaw), Wiktoria Zapart (University of Lódź)*
+*Authors: Olaf Placha (University of Warsaw), Tomasz Kanas (University of Warsaw), Maciej Twardowski (University of Warsaw), Wiktoria Zapart (University of Łódź)*
 
 *Mentors: Alicja Jośko (McKinsey),  Maciej Andrzejak (McKinsey)*
 
@@ -18,7 +18,7 @@ One of the first problems we faced was the categorization of products. We did no
 
 Our initial approach was to automatically categorize products using polish word2vec embeddings and run K-Means clustering algorithm on vectorized product names. This proved to be problematic: Setting small number of clusters (between 5 and 15) resulted in seemingly unrelated products clumped in the same clusters. On the other hand, setting larger number of clusters resulted in too small number of products in each of them. Time series of total sales of such small 'categories' had low values and seemed to contain a lot of noise. Also, inspecting the quality of clusters required a lot of manual work.
 
-This leads to a simpler approach that was actually used: simple categorization of products based on their names containing manually selected kewyords. There were 5 predetermined categories: Garden, Home, Clothes, Toy, Industry. If a product name contained a keyword (for example "taras" i.e. terrace in Polish) specific to one of these categories, it was enough to assign category label to it (in this case Garden). In total, there were 187 keywords used, which allowed to categorize 25.000 out of 40.000 product names, responsible for more than 70% of global sales. Morevoer, Garden and Home turned out to be responsible for more than 50% of global sales. Since in this project we were interested in the relationship between weather and product sales, they seemed like a great fit. Sales of Garden category products had a distinctive yearly seasonal pattern, unlike Home products. 
+This leads to a simpler approach that was actually used: simple categorization of products based on their names containing manually selected keywords. There were 5 predetermined categories: Garden, Home, Clothes, Toy, Industry. If a product name contained a keyword (for example "taras" i.e. terrace in Polish) specific to one of these categories, it was enough to assign category label to it (in this case Garden). In total, there were 187 keywords used, which allowed to categorize 25.000 out of 40.000 product names, responsible for more than 70% of global sales. Moreover, Garden and Home turned out to be responsible for more than 50% of global sales. Since in this project we were interested in the relationship between weather and product sales, they seemed like a great fit. Sales of Garden category products had a distinctive yearly seasonal pattern, unlike Home products. 
 
 ```{r, out.width="700", fig.align="center", echo=FALSE, fig.cap='Total sales of Garden and Home products'}
 knitr::include_graphics('images/05-category-sales.png')
@@ -28,7 +28,7 @@ knitr::include_graphics('images/05-category-sales.png')
 
 Each model was trained and tested on 12 different train and test datasets. Each training dataset contained data ranging from January 1 2019 to THRESHOLD_DATE. It was then tested on each of 21 next days from THRESHOLD_DATE. These "threshold" dates are marked above on Figure 5.1. They uniformly covered year 2020. This way of splitting train and test datasets ought to mimic a real-world scenario in which predictive models are retrained periodically and gives a more representative view into models' performance over the whole year than a single division of data into train, test (and possibly validation) sets. There were some records from the end of 2018 year, but they were discarded due to very small and unstable sales volume values.
 
-As a validation metric we had chosen Median Absolute Error and later on looked at error distributions for 12 train/test datasets and particular models. Median version of this metric was chosen over the "Mean" one due to occacional anomalous sales values occuring the data which could distort the results. 
+As a validation metric we had chosen Median Absolute Error and later on looked at error distributions for 12 train/test datasets and particular models. Median version of this metric was chosen over the "Mean" one due to occasional anomalous sales values occurring the data which could distort the results. 
 
 One of the main benefits of used metric is its simplicity and interpretability. It's drawback is that it needs some reference to assess whether obtained values are "good" or "bad"; this reference was provided by evaluating a benchmark model that always predicts no change in daily sales volume. 
 
@@ -56,7 +56,7 @@ Finally, we incorporated a model that actually used weather information while pr
 - month
 - region (unused in the final model)
 
-Two versions of Random Forest models were evalueated. The first one predicted absolute volume of next day sales and the second one predicted the difference of daily sales volume with respect to the current day. Differencing daily sales volume (as in the second version of the model) removed the trend from the time series; this can be seen below on Figure 5.2   
+Two versions of Random Forest models were evaluated. The first one predicted absolute volume of next day sales and the second one predicted the difference of daily sales volume with respect to the current day. Differencing daily sales volume (as in the second version of the model) removed the trend from the time series; this can be seen below on Figure 5.2   
 
 
 ```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Differencing daily sales volumes detrends the time series.'}
@@ -84,5 +84,12 @@ knitr::include_graphics('images/05-model-results.png')
 
 
 ## Summary and conclusions 
+Ability to predict future sales is vital to any retail business. One can use black box machine learning model to compute such predictions, but knowledge what factors contribute to future sales may be even more insightful. 
 
+Our task was to assess the impact of temperature on sales prediction. To achieve it, we firstly trained several machine learning models predicting future sales. Then we used few XML techniques to examine effect of weather on our predictions.
 
+Our experiments show little impact of weather on sales predictions. Both variable importance, and local explanation techniques showed some, although small, impact of weather, but model that used month number, instead of temperature and precipitation, achieved similar (even slightly better) results. It suggests, that the impact of weather in our models is mostly caused by a correlation between temperature and month.
+
+There are few possible reasons of such outcome. Firstly, we observe substantial impact of seasonality on sales. Temperature may have impact on this seasonality pattern. For example in one year summer increase in sales may come earlier than in other year, due to higher temperatures. Unfortunately, we had only 2 years of data, which is too short to be able to observe such pattern.
+
+Another possibility is that our model is not good enough to capture the impact of weather. There are many factors that affect sales, like seasonality, day of week or growth of the company. There was also outbreak of COVID-19 pandemic in the middle of examined period, which could affect shopping habits and made it harder to train good model. 
