@@ -3,11 +3,11 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Team 5
+# Temperature vs sales predcition
 
-*Authors: Group 5*
+*Authors: Olaf Placha (University of Warsaw), Tomasz Kanas (University of Warsaw), Maciej Twardowski (University of Warsaw), Wiktoria Zapart (University of Lódź)*
 
-*Mentors: Group 5*
+*Mentors: Alicja Jośko (McKinsey),  Maciej Andrzejak (McKinsey)*
 
 
 ## Introduction 
@@ -26,6 +26,61 @@ This leads to a simpler approach that was actually used: simple categorization o
 
 ```{r, out.width="700", fig.align="center", echo=FALSE, fig.cap='Total sales of Garden and Home products'}
 knitr::include_graphics('images/05-category-sales.png')
+```
+
+### Training and testing procedure
+
+Each model was trained and tested on 12 different train and test datasets. Each training dataset contained data ranging from January 1 2019 to THRESHOLD_DATE. It was then tested on each of 21 next days from THRESHOLD_DATE. These "threshold" dates are marked above on Figure 5.1. They uniformly covered year 2020. This way of splitting train and test datasets ought to mimic a real-world scenario in which predictive models are retrained periodically and gives a more representative view into models' performance over the whole year than a single division of data into train, test (and possibly validation) sets. There were some records from the end of 2018 year, but they were discarded due to very small and unstable sales volume values.
+
+As a validation metric we had chosen Median Absolute Error and later on looked at error distributions for 12 train/test datasets and particular models. Median version of this metric was chosen over the "Mean" one due to occacional anomalous sales values occuring the data which could distort the results. 
+
+One of the main benefits of used metric is its simplicity and interpretability. It's drawback is that it needs some reference to assess whether obtained values are "good" or "bad"; this reference was provided by evaluating a benchmark model that always predicts no change in daily sales volume. 
+
+
+### Evaluated models
+
+
+#### Benchmark
+
+To obtain some reference to models' quality metrics, a simple benchmark model was used. This model "predicts" the same daily sales volume as was observed in the current day.
+
+#### Arima & FB prophet models
+
+Further, pure time series models were considered, meaning the ones that only used the information of historical daily sales volumes for each of selected categories. These were ARIMA (autoregressive integrated moving average) model and a Generalized Linear Models from FB Prohpet library which incorporates trend, seasonal components and prediction uncertainty.
+
+#### Random Forest
+
+Finally, we incorporated a model that actually used weather information while predicting next day daily sales volume. This was a Random Forest model, that turned out to be the most effective. It used features such as:
+
+- product category (garden / home)
+- daily sales volume - today and mean over previous six days
+- temperature - today and mean over previous six days
+- precipitation - today and mean over previous six days
+- day of week
+- month
+- region (unused in the final model)
+
+Two versions of Random Forest models were evalueated. The first one predicted absolute volume of next day sales and the second one predicted the difference of daily sales volume with respect to the current day. Differencing daily sales volume (as in the second version of the model) removed the trend from the time series; this can be seen below on Figure 5.2   
+
+
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Differencing daily sales volumes detrends the time series.'}
+knitr::include_graphics('images/05-sales-diffs.png')
+```
+
+#### Models' effectiveness
+
+The Random Forest models incorporating among others weather information were found to be the most effective. Their Absolute Median Errors were frequently 30-40% lower compared to the benchmark model. Simpler models that used only historical sales volume data were not as good, but still significantly better than the benchmark.
+
+The average Median Absolute Errors (in PLNs) for each model and category are presented below:
+
+- Detrended Random Forest: ~4300 (Garden), ~4800 (Home)
+- Random Forest: ~4500 (Garden), ~5000 (Home)
+- Arima & FB prophet: ~5200 (Garden), ~6500 (Home)
+- Benchmark: ~6000 (Garden), ~8000 (Home)
+
+
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Distribution of Median Absolute Errors for Garden (up) and Home (down) sales prediction'}
+knitr::include_graphics('images/05-model-results.png')
 ```
 
 ## Explanations
