@@ -236,8 +236,6 @@ We also observed an anomaly. In most PDP and Ceteris Paribus plots, a higher num
 
 </center>
 
-This phenomenon is intriguing, yet the explanation is quite simple. If the sales figures in the recent few months were ‘flat’ then if the number of sold product 5 months ago were lower, it would suggest the existence of a rising trend, increasing the total sales prediction.
-
 #### Choice of model features
 
 In this section, we explain why we have chosen the aforementioned input variables. Most of the comparisons were based on train and test metrics – mainly MAE & RMSE. But the interesting ones utilize XAI techniques, which allow us to understand how our model works and adjust the input variables accordingly.
