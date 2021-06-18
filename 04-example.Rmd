@@ -129,8 +129,11 @@ We used a random forest model that predicted the daily value of sales i.e. given
 
 ![The model uses as input the number of products sold in each first-level category averaged over three two-week windows in the past](./images/04_window_averaging.png){width=70%}
 
+|               | MAE  | RMSE | MAE avg. over months | RMSE avg. over months |
+|---------------|------|------|----------------------|-----------------------|
+| Value in euro | 3335 | 4230 | 1211                 | 1288                  |
 
-![Table of metrics on the test set](./images/04_long_term_results.png){width=55%}
+![Table of metrics on the test set]()
 
 </center>
 
