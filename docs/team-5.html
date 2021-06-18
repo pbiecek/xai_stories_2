@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-06-13" />
+<meta name="date" content="2021-06-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -212,6 +212,11 @@ div.csl-indent {
 <p>For the final stage of the pipeline a method of assignment to the cluster had to be chosen - we tried two, which we describe in the next section. Below we included illustration of the timeline of our efforts.</p>
 <p><img src="images/05-timeline.jpg" title="Clusters visualized" /></p>
 </div>
+<div id="tf-idf-cluster-names" class="section level4" number="5.2.1.4">
+<h4><span class="header-section-number">5.2.1.4</span> TF-IDF Cluster Names</h4>
+<p>In order to better understand clusters, we named them. We used the tf-idf statistic, treating the combination of product descriptions belonging to one cluster as a single document. Then we used the three most common words according to tf-idf as the cluster name. This method allowed us to neatly name the clusters without using company names (Pepco, Shumee, Vixdal) that are common in the data. Some examples of names are shown below</p>
+<p><img src="images/05-cluster_names.png" title="Examples name of cluster" /></p>
+</div>
 </div>
 </div>
 <div id="explanations-4" class="section level2" number="5.3">
@@ -232,6 +237,9 @@ Keeping these findings in mind we decided to improve our model. The obvious choi
 </div>
 <div id="shap" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> Shap</h3>
+<p>Like Lime, Shap method also needs the likelihood of belonging to a given cluster. In this case, we used only the inversion of the distance to the closest cluster as a measure of cluster membership. We compared the explanations for two embedding spaces: Bert (512 dim), after UMAP dimension reduction (6 dim). Using two different metrics: Euclidean and cosine. From the Lime Explanation Experience, we used lemmatized dataset. Different metrics performed better depending on the space. The Euclidean distance performed better for six-dimensional spaces, while the cosine similarity has better performance in Bert space, which can be explained by the creation of embeddings in these two spaces. We assessed the results of explanations on the basis of several dozen examples from various clusters. Results are slightly worse than Lime method, but they gave meaningful results showing what influences belonging to a specific cluster.
+Below is an example of an explanation showing the same instances as the first example in the Lime method. Two words with the gratest influance are also “dzwi”/“dveri” (door in English) and “bambusowa”/“bambusovy” (bamboo in English), which is reasonable because the name of this cluster is “dveřní zasłona bambus” what can be translated to “bamboo door curtain.” These explanations were made using Euclidean metrics and reduced space. This method gave the most valuable explanations, however we later use Bert space and cosine distance for performance reasons.</p>
+<p><img src="images/05-shap_instance.png" title="Shap for instance" /></p>
 <p>TODO</p>
 </div>
 </div>
