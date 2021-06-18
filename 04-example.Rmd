@@ -1,10 +1,10 @@
 # Story Sales Prediction
 Long and short term shumee company sales predictions based on historical data and product categories
 
-*Authors: Group 4*
+*Authors:*
 Mateusz Sieniawski, Michał Raszkowski, Piotr Krzywicki, Stanisław Antonowicz, Adam Sobiński
 
-*Mentors: Group 4*
+*Mentors:*
 Błażej Wiórek, Miłosz Dobersztyn
 
 
