@@ -30,6 +30,7 @@ dataset-and-pre-processing
 size-structure-and-issues
 ideas-exploration
 model-overview
+tf-idf-cluster-names
 explanations-4
 lime
 shap
