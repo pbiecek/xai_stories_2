@@ -96,6 +96,12 @@ Below is an example of an explanation showing the same instances as the first ex
 
 ![](./images/05-shap_instance.png "Shap for instance")
 
+We noticed that words rarely have a negative impact on belonging to a given cluster. Usually the impact was positive or neutral. We've expanded the instance level explanations. We used one cluster as an anchor and close cluster to anchor cluster as examined. For the Shap method we passed the inversion of the distance between instance from  examined cluster to the center of the anchor cluster. This method showed what words separate clusters.
+As an example, we provide explanations of the "mango szafka nocna" (mango nightstand) cluster where the anchor cluster was named: "lite drewno mango" (solid mango wood). We can see that the words distinguishing these two clusters are "nocny", "ręcznie" ("night", "manual"). However, the common word of these two clusters is "mango". Surprisingly, "lite drewno" has a positive or negative effect on belonging to an anchor cluster depending on its position in the description of the item, which shows the inaccuracies of this method of explanations. This phrase should always have a positive effect on belonging to a cluster called "lite drewno mango".
+
+![](./images/05-anchor-instances.png "Shap for anchor")
+
+
 TODO
 
 ## Summary and conclusions 
