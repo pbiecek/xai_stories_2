@@ -1,5 +1,5 @@
 # Story Sales Prediction
-Long and short term shumee company sales predictions based on historical data and product categories
+Long-term and short-term sales predictions based on historical data and product categories
 
 *Authors:*
 Mateusz Sieniawski, Michał Raszkowski, Piotr Krzywicki, Stanisław Antonowicz, Adam Sobiński
@@ -42,22 +42,22 @@ During the global COVID-19 pandemic (which started in Poland in March 2020), man
 Because of those factors, after some preliminary experiments we decided that we won’t use time series-specific methods like ARIMA or a more recent *Prophet* @taylor2017forecasting, as they weren’t able to accurately predict even a couple of days or weeks of sales. Instead, we used traditional machine learning models suitable for learning non-linear relationships.
 
 
-| Column        | Description                                                                               |
-|---------------|-------------------------------------------------------------------------------------------|
-| Order ID      | Cart ID – products bought together had the same order ID                                  |
-| Date          | Date of order (with minute-level resolution)                                              |
-| Source        | Distributor of the product                                                                |
-| Country       | These columns regard the client address                                                   |
-| City          |                                                                                           |
-| ZIP code      |                                                                                           |
-| Product name  | Product names were in multiple languages, mostly in Polish                                |
-| SKU           | Stock keeping unit (https://en.wikipedia.org/wiki/Stock_keeping_unit)                     |
-| EAN           | International Article Number (https://en.wikipedia.org/wiki/International_Article_Number) |
-| Quantity      |                                                                                           |
-| Product Price |                                                                                           |
-| Currency      |                                                                                           |
-| Delivery cost |                                                                                           |
-| Delivery type | E.g. which courier company was delivering the product                                     |
+| Column             | Description                                                                               |
+|--------------------|-------------------------------------------------------------------------------------------|
+| Order ID           | Cart ID – products bought together had the same order ID                                  |
+| Date               | Date of order (with minute-level resolution)                                              |
+| Source             | Distributor of the product                                                                |
+| Country            | These three columns regard the client address                                                   |
+| City               |                                                                                           |
+| ZIP code           |                                                                                           |
+| Product name       | Product names were in multiple languages, mostly in Polish                                |
+| SKU                | Stock keeping unit (https://en.wikipedia.org/wiki/Stock_keeping_unit)                     |
+| EAN                | International Article Number (https://en.wikipedia.org/wiki/International_Article_Number) |
+| Quantity           |                                                                                           |
+| Product Price      |                                                                                           |
+| Currency           |                                                                                           |
+| Delivery cost      |                                                                                           |
+| Delivery type      | E.g. which courier company was delivering the product                                     |
 
 <center>
 
