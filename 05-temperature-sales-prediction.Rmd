@@ -30,9 +30,9 @@ Beside the description of the data and specification of the problem of this pape
 
 ### Product Categories
 
-One of the first problems we faced was the categorization of products. We did not want to model sales of each product separately, but instead wanted to focus on a smaller amount of distinctively different categories. Below was explained the process that led to choosing 2 product categories of which sales were finally modelled: Garden and Home.  
+One of the first problems we faced was the categorization of products. We did not want to model sales of each product separately, but instead wanted to focus on a smaller number of distinctively different categories. Below was explained the process that led to choosing 2 product categories of which sales were finally modelled: Garden and Home.  
 
-Our initial approach was to automatically categorize products using polish word2vec embeddings and run K-Means clustering algorithm on vectorized product names. This proved to be problematic: Setting small number of clusters (between 5 and 15) resulted in seemingly unrelated products clumped in the same clusters. On the other hand, setting larger number of clusters resulted in too small number of products in each of them. Time series of total sales of such small 'categories' had low values and seemed to contain a lot of noise. Also, inspecting the quality of clusters required a lot of manual work.
+Our initial approach was to automatically categorize products using polish word2vec embeddings and run K-Means clustering algorithm on vectorized product names. This proved to be problematic: Setting a small number of clusters (between 5 and 15) resulted in seemingly unrelated products clumped in the same clusters. On the other hand, setting a larger number of clusters resulted in too small number of products in each of them. Time series of total sales of such small 'categories' had low values and seemed to contain a lot of noise. Also, inspecting the quality of clusters required a lot of manual work.
 
 This leads to a simpler approach that was actually used: simple categorization of products based on their names containing manually selected keywords. There were 5 predetermined categories: Garden, Home, Clothes, Toy, Industry. If a product name contained a keyword (for example "taras" i.e. terrace in Polish) specific to one of these categories, it was enough to assign category label to it (in this case Garden). In total, there were 187 keywords used, which allowed to categorize 25.000 out of 40.000 product names, responsible for more than 70% of global sales. Moreover, Garden and Home turned out to be responsible for more than 50% of global sales. Since in this project we were interested in the relationship between weather and product sales, they seemed like a great fit. Sales of Garden category products had a distinctive yearly seasonal pattern, unlike Home products. 
 
@@ -42,11 +42,11 @@ knitr::include_graphics('images/05-category-sales.png')
 
 ### Training and testing procedure
 
-Each model was trained and tested on 12 different train and test datasets. Each training dataset contained data ranging from January 1 2019 to THRESHOLD_DATE. It was then tested on each of 21 next days from THRESHOLD_DATE. These "threshold" dates are marked above on Figure 5.1. They uniformly covered year 2020. This way of splitting train and test datasets ought to mimic a real-world scenario in which predictive models are retrained periodically and gives a more representative view into models' performance over the whole year than a single division of data into train, test (and possibly validation) sets. There were some records from the end of 2018 year, but they were discarded due to very small and unstable sales volume values.
+Each model was trained and tested on 12 different train and test datasets. Each training dataset contained data ranging from January 1 2019 to THRESHOLD_DATE. It was then tested on each of 21 next days from THRESHOLD_DATE. These "threshold" dates are marked above on Figure 5.1. They uniformly covered the year 2020. This way of splitting train and test datasets ought to mimic a real-world scenario in which predictive models are retrained periodically and gives a more representative view into models' performance over the whole year than a single division of data into train, test (and possibly validation) sets. There were some records from the end of 2018 year, but they were discarded due to very small and unstable sales volume values.
 
-As a validation metric we had chosen Median Absolute Error and later on looked at error distributions for 12 train/test datasets and particular models. Median version of this metric was chosen over the "Mean" one due to occasional anomalous sales values occurring the data which could distort the results. 
+As a validation metric we had chosen Median Absolute Error and later on looked at error distributions for 12 train/test datasets and particular models. Median version of this metric was chosen over the "Mean" one due to occasional anomalous sales values occurring in the data which could distort the results. 
 
-One of the main benefits of used metric is its simplicity and interpretability. It's drawback is that it needs some reference to assess whether obtained values are "good" or "bad"; this reference was provided by evaluating a benchmark model that always predicts no change in daily sales volume. 
+One of the main benefits of the used metric is its simplicity and interpretability. It's drawback is that it needs some reference to assess whether obtained values are "good" or "bad"; this reference was provided by evaluating a benchmark model that always predicts no change in daily sales volume. 
 
 
 ### Evaluated models
@@ -62,7 +62,7 @@ Further, pure time series models were considered, meaning the ones that only use
 
 #### Random Forest
 
-Finally, we incorporated a model that actually used weather information while predicting next day daily sales volume. This was a Random Forest model, that turned out to be the most effective. It used features such as:
+Finally, we incorporated a model that actually used weather information while predicting the next day's daily sales volume. This was a Random Forest model that turned out to be the most effective. It used features such as:
 
 - product category (garden / home)
 - daily sales volume - today and mean over previous six days
