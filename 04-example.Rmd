@@ -337,7 +337,7 @@ One can observe that it is possible to choose a threshold value such that the gr
 
 </center>
 
-We calculate the global permutational variable importance of input features for each model. Overall, the most important feature was the weekday. In the case of AdaBoost, it had an enormous impact on model prediction. For the other two models, it was divided into effectively six different variables via one-hot encoding. From these variables, the ones indicating Saturday, Sunday or Monday carried greater importance. This matches with an observation that the significant change in sales dynamic happens for these weekdays.
+We calculate the global permutational variable importance of input features for each model. Overall, the most important feature was the weekday. In the case of AdaBoost, it had an enormous impact on model prediction. For the other two models, it was divided into effectively six different variables via one-hot encoding. From these variables, the ones indicating Saturday, Sunday, or Monday carried greater importance. This matches with an observation that the significant change in sales dynamic happens for these weekdays.
 
 <center>
 
