@@ -7,18 +7,19 @@
 
 
 ## Introduction 
-A constantly asked question is “How to improve sales?”. There are many factors which have an impact on sales. One of them could be weather which is why in this part we are going to analyse if weather have an actual impact on sales. Thanks to cooperation with Shumme S.A, orders on products of the company were provided as the dataset for this project. In particular, information such as date of the order (all orders were made between 2018 and 2021), country, zip code, product name, volume and price were further used to category selection and model construction. Additionally, dataset was extended by weather information and category of the products. Weather information such as daily average temperature and total daily precipitation were retrieved from the institute of meteorology and water management database. Using first digits of zip code information we divided our data into 10 regions which we matched with accumulated weather data we obtained. In the process of category selection we choose two categories which will be further analyzed and used in model. First group covers products which we can classify as garden product (mostly furniture and accessories), second group covers products which we can classify as home category (also furniture and accessories). We also filtered only these orders which were placed in Poland. Below is an overview of total sales (without splitting into categories), average temperature and precipitation.
+A constantly asked question is “How to improve sales?”. There are many factors which have an impact on sales. One of them could be weather, which is why in this part we are going to analyse if weather have an actual impact on sales. Thanks to cooperation with Shumme S.A, orders on products of the company were provided as the dataset for this project. In particular, information such as date of the order (all orders were made between 2018 and 2021), country, zip code, product name, volume and price were further used to category selection and model construction. Additionally, dataset was extended by weather information and category of the products. Weather information such as daily average temperature and total daily precipitation were retrieved from the institute of meteorology and water management database. Using first digits of zip code information we divided our data into 10 regions which we matched with accumulated weather data we obtained. In the process of category selection we choose two categories which will be further analyzed and used in model. First group covers products which we can classify as garden product (mostly furniture and accessories), second group covers products which we can classify as home category (also furniture and accessories). We also filtered only these orders which were placed in Poland. Below is an overview of total sales (without splitting into categories), average temperature and precipitation.
 
-```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily total sales, average temperature, precipitation in milimiters'}
-knitr::include_graphics('images/sales_temperature_precipitation.png')
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily total sales, average temperature, precipitation in millimeters'}
+knitr::include_graphics('images/05-sales_temperature_precipitation.png')
 ```
 An overview of garden products sales and temperature: 
 
-```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily garden products sales vs average temperature}
-knitr::include_graphics('images/garden_sales.png')
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Daily garden products sales vs average temperature'}
+knitr::include_graphics('images/05-garden_sales.png')
 ```
 
 Beside the description of the data and specification of the problem of this paper, following subjects will be covered: 
+
 - model construction
 - categories selection
 - model exploration 
@@ -101,7 +102,7 @@ Explaining models’ decisions can give valuable insights into what determines t
 ### Instance-level explanations
 
 ```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='SHAP values from one prediction - garden accessories'}
-knitr::include_graphics('images/shap1.png')
+knitr::include_graphics('images/05-shap1.png')
 ```
 
 Above you can see SHAP values of one of the predictions. It is not surprising that the most influential feature was the mean sales from the previous 6 days. In this case it was substantially above the average. Moreover, moderate total sales from the previous day had a negative impact on the next day’s sales. What is also not very surprising is the fact that the day of the week, which is in this case Tuesday, also reduces expected sales. It aligns with Shumee representatives’ observations, as they usually expect enhanced sales during weekends.
@@ -109,15 +110,15 @@ Above you can see SHAP values of one of the predictions. It is not surprising th
 Most importantly, the precipitation and the temperature had a negligible impact on the prediction. But maybe it is because the values were around the average? We definitely need more explanations to answer this question.
 
 ```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='SHAP values from one prediction - home accessories'}
-knitr::include_graphics('images/shap2.png')
+knitr::include_graphics('images/05-shap2.png')
 ```
 
 Now you can see another prediction. Contribution of the features to the prediction is similar. Likewise, the weather didn’t impact the predictions substantially. But still, we can not be sure if weather has no impact on most predictions. There were just two examples. 
 
 Let’s see how the predictions would change if we tweaked the weather values. To accomplish that we will use Ceteris Paribus Profiles.
 
-```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Ceteris Paribut Profiles of a few features'}
-knitr::include_graphics('images/cp.png')
+```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Ceteris Paribus Profiles of a few features'}
+knitr::include_graphics('images/05-cp.png')
 ```
 
 On average, temperature and precipitation prediction is stable as we change the weather values. It lets us be more confident that the weather is not very important in the model’s predictions.
@@ -128,7 +129,7 @@ On average, temperature and precipitation prediction is stable as we change the 
 To have even more holistic understanding of the weather importance we decided to do model-level explanations. Firstly, we calculated features’ permutational importance. It relied on fixing all features except for one and permuting the not fixed feature’s values. Average absolute percentage difference between the original prediction and the prediction after permutation indicated how important a specific feature is in the predictions.
 
 ```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Permutational importance of features in case of home accessories'}
-knitr::include_graphics('images/pi.png')
+knitr::include_graphics('images/05-pi.png')
 ```
 
 Above you can see the permutational features importance in case of home accessories. The results are quite consistent with what we have obtained previously - average sales from the last 6 days as well as the day of the week are the most influential.
@@ -141,7 +142,7 @@ Finally, we decided to build 3 models with different datasets. They were:
 It turned out that all models performed better than the benchmark, but there were slight performance differences between the models. Namely, the model trained without the weather data, but with the month number, achieved the best score in both home and garden categories. It lets us assume that the weather is just a proxy for the season of the year.
 
 ```{r, out.width="800", fig.align="center", echo=FALSE, fig.cap='Models error when trained with different datasets'}
-knitr::include_graphics('images/dd.png')
+knitr::include_graphics('images/05-dd.png')
 ```
 
 ## Summary and conclusions 
