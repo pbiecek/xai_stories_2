@@ -250,7 +250,7 @@ We wanted to know how large the rolling window over which we average sales numbe
 
 </center>
 
-We can see that this model looked almost only at the two-week windows. Also, the two-week windows were always more important than the other window sizes. Additionally, this model has around 10% worse performance on the test set compared to our final model. It may suggest that adding more window sizes to the model inputs made it overfit more.
+We can see that this model looked almost only at the two-week windows. Also, the two-week windows were always more important than the other window sizes. Additionally, this model has around 10% worse performance on the test set compared to our final model. It may suggest that additional window sizes in the model inputs make it overfit more.
 
 ##### Using the number of sales only
 
@@ -260,7 +260,7 @@ We can see that this model looked almost only at the two-week windows. Also, the
 knitr::include_graphics(c("./images/04_counts_only.png","./images/04_counts_and_sales.png"))
 ``` 
 
-![Model predictions using counts only vs Full model predictions]()
+![Model predictions using counts only vs Model predictions using counts and values]()
 
 </center>
 
