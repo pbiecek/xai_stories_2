@@ -21,7 +21,7 @@ The use of machine learning and deep learning in business settings is rapidly ev
 
 In this project, we decided to explore the last problem: forecasting future profits based on historical sales data. We used the data provided by *shumee* (https://shumee.pl), a Polish e-commerce company mostly selling various household products online.
 
-Additionally, all of our models are interpretable using multiple explainable machine learning techniques such as SHAP @lundberg2017unified, LIME @ribeiro2016should, PDP @friedman2001greedy, Ceteris Paribus Profiles @goldstein2014peeking, and Variable Importance @fisher2019models. 
+Additionally, all of our models are interpretable using multiple explainable machine learning techniques such as SHAP @lundberg2017unified, LIME @ribeiro2016should, PDP @friedman2001greedy, Ceteris Paribus Profiles @goldstein2014peeking, and Variable Importance @fisher2019models. For SHAP we used original implementation (https://github.com/slundberg/shap), for other methods, we used XAI package dalex @biecek2018dalex.
 
 ## Data
 
