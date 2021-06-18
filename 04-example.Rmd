@@ -1,5 +1,5 @@
 # Story Sales Prediction
-Long and short term shumee company sales predictions based on historical data and product categories
+Long-term and short-term sales predictions based on historical data and product categories
 
 *Authors:*
 Mateusz Sieniawski, Michał Raszkowski, Piotr Krzywicki, Stanisław Antonowicz, Adam Sobiński
