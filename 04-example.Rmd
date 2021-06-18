@@ -133,7 +133,7 @@ We used a random forest model that predicted the daily value of sales i.e. given
 |---------------|------|------|----------------------|-----------------------|
 | Value in euro | 3335 | 4230 | 1211                 | 1288                  |
 
-![Table of metrics on the test set]()
+![Table of metrics on the test set. The model predicts sales figures with daily resolution. Its predictions could be summed over whole months. The two rightmost columns show an averaged error in such a case, which is relatively small – MAE averaged over months is 8,7% of mean sales value and RMSE averaged over months is 9,3% of mean sales value.]()
 
 </center>
 
@@ -236,8 +236,6 @@ We also observed an anomaly. In most PDP and Ceteris Paribus plots, a higher num
 
 </center>
 
-This phenomenon is intriguing, yet the explanation is quite simple. If the sales figures in the recent few months were ‘flat’ then if the number of sold product 5 months ago were lower, it would suggest the existence of a rising trend, increasing the total sales prediction.
-
 #### Choice of model features
 
 In this section, we explain why we have chosen the aforementioned input variables. Most of the comparisons were based on train and test metrics – mainly MAE & RMSE. But the interesting ones utilize XAI techniques, which allow us to understand how our model works and adjust the input variables accordingly.
@@ -252,7 +250,7 @@ We wanted to know how large the rolling window over which we average sales numbe
 
 </center>
 
-We can see that this model looked almost only at the two-week windows. Also, the two-week windows were always more important than the other window sizes. Additionally, this model has around 10% worse performance on the test set compared to our final model. It may suggest that adding more window sizes to the model inputs made it overfit more.
+We can see that this model looked almost only at the two-week windows. Also, the two-week windows were always more important than the other window sizes. Additionally, this model has around 10% worse performance on the test set compared to our final model. It may suggest that additional window sizes in the model inputs make it overfit more.
 
 ##### Using the number of sales only
 
@@ -262,7 +260,7 @@ We can see that this model looked almost only at the two-week windows. Also, the
 knitr::include_graphics(c("./images/04_counts_only.png","./images/04_counts_and_sales.png"))
 ``` 
 
-![Model predictions using counts only vs Full model predictions]()
+![Model predictions using counts only vs Model predictions using counts and values]()
 
 </center>
 
@@ -327,7 +325,7 @@ All classification models predicting whether the sales will move up or down sign
 
 We also illustrated the models' performance using ROC (receiver operating characteristic) curves, which show false positive and true positive rates of the model for a given threshold. Again, this time comparing the AUC score (Area Under Curve), the AdaBoost model works best, followed by logistic regression, then by the neural network.
 
-One can observe that it is possible to choose a threshold value such that the gradient boosting model has a true positive rate of 0.5 while maintaining a false positive rate of 0. In other words, when the model says the sales value will go up, with a very high probability that it will go up. That property can certainly be used for shumee’s competitive advantage.
+One can observe that it is possible to choose a threshold value such that the gradient boosting model has a true positive rate of 0.5 while maintaining a false positive rate of 0. In other words, when the model says the sales value will go up, with a very high probability it will go up. That property can certainly be used for shumee’s competitive advantage.
 
 ### Models' explanations
 
@@ -340,7 +338,7 @@ One can observe that it is possible to choose a threshold value such that the gr
 
 </center>
 
-We calculate the global permutational variable importance of input features for each model. Overall, the most important feature was the weekday. In the case of AdaBoost, it had an enormous impact on model prediction. For the other two models, it was divided into effectively six different variables via one-hot encoding. From these variables, the ones indicating Saturday, Sunday or Monday carried greater importance. This matches with an observation that the significant change in sales dynamic happens for these weekdays.
+We calculate the global permutational variable importance of input features for each model. Overall, the most important feature was the weekday. In the case of AdaBoost, it had an enormous impact on model prediction. For the other two models, it was divided into effectively six different variables via one-hot encoding. From these variables, the ones indicating Saturday, Sunday, or Monday carried greater importance. This matches with an observation that the significant change in sales dynamic happens for these weekdays.
 
 <center>
 
