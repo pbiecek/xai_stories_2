@@ -91,6 +91,10 @@ Yet, the nothing in the word is perfect - even after aforementioned fixes few of
 ![](./images/05-Lime_czerw.jpg "Lime for the cluster with colors")
 
 ### Shap
+Like Lime, Shap method also needs the likelihood of belonging to a given cluster. In this case, we used only the inversion of the distance to the closest cluster as a measure of cluster membership. We compared the explanations for two embedding spaces: Bert (512 dim), after UMAP dimension reduction (6 dim). Using two different metrics: Euclidean and cosine. From the Lime Explanation Experience, we used lemmatized dataset. Different metrics performed better depending on the space. The Euclidean distance performed better for six-dimensional spaces, while the cosine similarity has better performance in Bert space, which can be explained by the creation of embeddings in these two spaces. We assessed the results of explanations on the basis of several dozen examples from various clusters. Results are slightly worse than Lime method, but they gave meaningful results showing what influences belonging to a specific cluster.
+Below is an example of an explanation showing the same instances as the first example in the Lime method. Two words with the gratest influance are also "dzwi"/"dveri" (door in English) and "bambusowa"/"bambusovy" (bamboo in English), which is reasonable because the name of this cluster is "dveřní zasłona bambus" what can be translated to "bamboo door curtain". These explanations were made using Euclidean metrics and reduced space. This method gave the most valuable explanations, however we later use Bert space and cosine distance for performance reasons.
+
+![](./images/05-shap_instance.png "Shap for instance")
 
 TODO
 
