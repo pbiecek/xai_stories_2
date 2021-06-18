@@ -133,7 +133,7 @@ We used a random forest model that predicted the daily value of sales i.e. given
 |---------------|------|------|----------------------|-----------------------|
 | Value in euro | 3335 | 4230 | 1211                 | 1288                  |
 
-![Table of metrics on the test set]()
+![Table of metrics on the test set. The model predicts sales figures with daily resolution. Its predictions could be summed over whole months. The two rightmost columns show an averaged error in such a case, which is relatively small – MAE averaged over months is 8,7% of mean sales value and RMSE averaged over months is 9,3% of mean sales value.]()
 
 </center>
 
