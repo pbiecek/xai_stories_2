@@ -60,7 +60,7 @@ For the final stage of the pipeline a method of assignment to the cluster had to
 
 ![](./images/05-timeline.jpg "Clusters visualized")
 
-#### TF-IDF Cluster Names
+#### TF-IDF cluster names
 
 In order to better understand clusters, we named them. We used the tf-idf statistic, treating the combination of product descriptions belonging to one cluster as a single document. Then we used the three most common words according to tf-idf as the cluster name. This method allowed us to neatly name the clusters without using company names (Pepco, Shumee, Vixdal) that are common in the data. Some examples of names are shown below
 
@@ -91,18 +91,31 @@ Yet, the nothing in the word is perfect - even after aforementioned fixes few of
 ![](./images/05-Lime_czerw.jpg "Lime for the cluster with colors")
 
 ### Shap
+#### Instance level explanations
 Like Lime, Shap method also needs the likelihood of belonging to a given cluster. In this case, we used only the inversion of the distance to the closest cluster as a measure of cluster membership. We compared the explanations for two embedding spaces: Bert (512 dim), after UMAP dimension reduction (6 dim). Using two different metrics: Euclidean and cosine. From the Lime Explanation Experience, we used lemmatized dataset. Different metrics performed better depending on the space. The Euclidean distance performed better for six-dimensional spaces, while the cosine similarity has better performance in Bert space, which can be explained by the creation of embeddings in these two spaces. We assessed the results of explanations on the basis of several dozen examples from various clusters. Results are slightly worse than Lime method, but they gave meaningful results showing what influences belonging to a specific cluster.
 Below is an example of an explanation showing the same instances as the first example in the Lime method. Two words with the gratest influance are also "dzwi"/"dveri" (door in English) and "bambusowa"/"bambusovy" (bamboo in English), which is reasonable because the name of this cluster is "dveřní zasłona bambus" what can be translated to "bamboo door curtain". These explanations were made using Euclidean metrics and reduced space. This method gave the most valuable explanations, however we later use Bert space and cosine distance for performance reasons.
 
 ![](./images/05-shap_instance.png "Shap for instance")
 
+#### Anchor explanations
 We noticed that words rarely have a negative impact on belonging to a given cluster. Usually the impact was positive or neutral. We've expanded the instance level explanations. We used one cluster as an anchor and close cluster to anchor cluster as examined. For the Shap method we passed the inversion of the distance between instance from  examined cluster to the center of the anchor cluster. This method showed what words separate clusters.
 As an example, we provide explanations of the "mango szafka nocna" (mango nightstand) cluster where the anchor cluster was named: "lite drewno mango" (solid mango wood). We can see that the words distinguishing these two clusters are "nocny", "ręcznie" ("night", "manual"). However, the common word of these two clusters is "mango". Surprisingly, "lite drewno" has a positive or negative effect on belonging to an anchor cluster depending on its position in the description of the item, which shows the inaccuracies of this method of explanations. This phrase should always have a positive effect on belonging to a cluster called "lite drewno mango".
 
 ![](./images/05-anchor-instances.png "Shap for anchor")
 
 
-TODO
+#### Cluster level explanation
+A global explanation would make little sense in our case. With Shap, we would get the words that repeat the most frequent in the dataset. Hence, we have decided that for each cluster we will find words that most influence the membership to this cluster. We compared this hierarchy to the cluster names which we achieved with tf-idf. We were unable to modify the masker in Shap to divide descriptions into words rather than sub-words. Hence, the importance is determined for sub-words (the word "parawan" is divided into "para" and "##wan"). The plots below show for clusters "biały książki regał", "klasická klasyczną początkujących" the importances of their sub-words in determining membership of the corresponding cluster.
+
+For the first example, the cluster name corresponds to importances from Shap plot. The most relevant subwords ("książki", "biały", "##ał", "reg") are included in the name of cluster. This shows that Shap important words have the highest tf-idf metric.
+
+
+![](./images/05-regal.png "Shap global regal")
+
+The second example shows that naming a cluster with tf-idf is not always reliable. In this case, the words referring to the guitar ("guitars", "guitar", "kytara") are of high importance, but are not included in the cluster name. However, after revising the elements from the cluster, the guitar is important. Cluster collects elements referring to guitar. The words "klasika" and "klasyczną" have great importance, while the word "początkujące" does not appear at all in the first 10 most important sub-words. Based on this example, we can conclude that the most important words according to Shap, better represent cluster than method using tf-idf.
+
+![](./images/05-gitara.png "Shap global guitar")
+![](./images/05-gitara_cluster.png "Guitar cluster")
 
 ## Summary and conclusions 
 
