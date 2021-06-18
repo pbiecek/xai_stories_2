@@ -325,7 +325,7 @@ All classification models predicting whether the sales will move up or down sign
 
 We also illustrated the models' performance using ROC (receiver operating characteristic) curves, which show false positive and true positive rates of the model for a given threshold. Again, this time comparing the AUC score (Area Under Curve), the AdaBoost model works best, followed by logistic regression, then by the neural network.
 
-One can observe that it is possible to choose a threshold value such that the gradient boosting model has a true positive rate of 0.5 while maintaining a false positive rate of 0. In other words, when the model says the sales value will go up, with a very high probability that it will go up. That property can certainly be used for shumee’s competitive advantage.
+One can observe that it is possible to choose a threshold value such that the gradient boosting model has a true positive rate of 0.5 while maintaining a false positive rate of 0. In other words, when the model says the sales value will go up, with a very high probability it will go up. That property can certainly be used for shumee’s competitive advantage.
 
 ### Models' explanations
 
