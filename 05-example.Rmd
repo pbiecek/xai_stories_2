@@ -60,7 +60,7 @@ For the final stage of the pipeline a method of assignment to the cluster had to
 
 ![](./images/05-timeline.jpg "Clusters visualized")
 
-####
+#### TF-IDF Cluster Names
 
 In order to better understand clusters, we named them. We used the tf-idf statistic, treating the combination of product descriptions belonging to one cluster as a single document. Then we used the three most common words according to tf-idf as the cluster name. This method allowed us to neatly name the clusters without using company names (Pepco, Shumee, Vixdal) that are common in the data. Some examples of names are shown below
 
