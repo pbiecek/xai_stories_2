@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | XAI Stories 2.0</title>
+  <title>Chapter 4 The most seasonal products | XAI Stories 2.0</title>
   <meta name="description" content="eXplainable Artificial Intelligence for Retail Analytics" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | XAI Stories 2.0" />
+  <meta property="og:title" content="Chapter 4 The most seasonal products | XAI Stories 2.0" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | XAI Stories 2.0" />
+  <meta name="twitter:title" content="Chapter 4 The most seasonal products | XAI Stories 2.0" />
   
   <meta name="twitter:description" content="eXplainable Artificial Intelligence for Retail Analytics" />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="acknowledgements.html"/>
-
+<link rel="prev" href="introduction-1.html"/>
+<link rel="next" href="model-for-predicting-future-sales.html"/>
 <script src="libs/header-attrs/header-attrs.js"></script>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
@@ -189,61 +189,154 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Akiba, Takuya, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. 2019. <span>“Optuna: A Next-Generation Hyperparameter Optimization Framework.”</span> In <em>Proceedings of the 25rd <span>ACM</span> <span>SIGKDD</span> International Conference on Knowledge Discovery and Data Mining</em>.
+<div id="the-most-seasonal-products" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> The most seasonal products</h1>
+<div id="data-representation" class="section level3" number="4.0.1">
+<h3><span class="header-section-number">4.0.1</span> Data representation</h3>
+<p>Before doing any further analysis, we grouped similar products as one cluster. It is described in greater details in the section Data preprocessing but here we give just some examples:</p>
+<p>group <strong>zestaw wypoczynkowy</strong> contains<br />
+* Zestaw wypoczynkowy, 14 elementów, naturalny rattan
+* Zestaw wypoczynkowy, 27 elementów, naturalny rattan<br />
+* 6-cz. zestaw wypoczynkowy do ogrodu, poduszki, rat
+* and many many more</p>
+<p>group <strong>stolik krzesła</strong> contains:
+* Stolik i krzesła barowe, 3 elementy, drewno’,
+* Stolik i krzesła barowe, 5 elementów, lite drewno akacjowe’,
+* Stolik i 2 krzesła z mozaiką niebiesko-białą’,
+* and many many more</p>
 </div>
-<div class="csl-entry">
-Biecek, Przemysław. 2018. <span>“DALEX: Explainers for Complex Predictive Models in r.”</span> <em>The Journal of Machine Learning Research</em> 19 (1): 3245–49.
+<div id="seasonality-measure" class="section level3" number="4.0.2">
+<h3><span class="header-section-number">4.0.2</span> Seasonality measure</h3>
+<p>Now we would like to measure which of these groups exhibit the strongest seasonality in terms of number of sales. We use the seasonality measure which is described here [<a href="https://otexts.com/fpp2/seasonal-strength.html" class="uri">https://otexts.com/fpp2/seasonal-strength.html</a>]. In this method the time series is decomposed into trend, seasonal component and remainder:</p>
+<p><span class="math display">\[
+y_t = T_t + S_t + R_t
+\]</span></p>
+<p>The strength of the seasonality is described as:</p>
+<p><span class="math display">\[
+F_S = max(0, 1 - \frac{Var(R_t)}{Var(S_T + R_t)}
+\]</span></p>
+<p>A rationale behinds this is that for strongly seasonal data the detrended time series should have much more variation than the remainder component has alone.</p>
 </div>
-<div class="csl-entry">
-Cadavid, Juan Pablo Usuga, Samir Lamouri, and Bernard Grabot. 2018. <span>“Trends in Machine Learning Applied to Demand &amp; Sales Forecasting: A Review.”</span> In <em>International Conference on Information Systems, Logistics and Supply Chain</em>.
+<div id="what-kind-of-seasonality" class="section level3" number="4.0.3">
+<h3><span class="header-section-number">4.0.3</span> What kind of seasonality?</h3>
+<p>Now it is time to answer the question of what period of times do we want to analyse. At first we thought about tracking the sales changes through the week, especially changes between working days and weekends. But let’s plot the bar plot of mean number of sales for every weekday:</p>
+<p><img src='images/02_week_seasonality.png'></p>
+<p>We were quite surprised by the fact that sales drop every day from Monday to Saturday. We were told by Shumee’s representative that this is because some transaction have the delay between the payment and the confirmation from the bank. That is why some transactions actually made by customers on a weekend are not visible in Shumee’s data until Monday.</p>
+<p>So we decided to not analyse the weekly seasonality, becuase the model based on this delayed data could drift far away from real customers behaviour. We think that the best solution is to consider monthly seasonality. Taking longer periods of time evens out the noise of delayed payments. On the other hand monthly seasonality is not so coarse as quaterly seasonality and could potentially capture more subtle patterns.</p>
 </div>
-<div class="csl-entry">
-Ferreira, Kris Johnson, Bin Hong Alex Lee, and David Simchi-Levi. 2016. <span>“Analytics for an Online Retailer: Demand Forecasting and Price Optimization.”</span> <em>Manufacturing &amp; Service Operations Management</em> 18 (1): 69–88.
-</div>
-<div class="csl-entry">
-Fisher, Aaron, Cynthia Rudin, and Francesca Dominici. 2019. <span>“All Models Are Wrong, but Many Are Useful: Learning a Variable’s Importance by Studying an Entire Class of Prediction Models Simultaneously.”</span> <a href="http://arxiv.org/abs/1801.01489">http://arxiv.org/abs/1801.01489</a>.
-</div>
-<div class="csl-entry">
-Friedman, Jerome H. 2001. <span>“Greedy Function Approximation: A Gradient Boosting Machine.”</span> <em>Annals of Statistics</em>, 1189–1232.
-</div>
-<div class="csl-entry">
-Goldstein, Alex, Adam Kapelner, Justin Bleich, and Emil Pitkin. 2014. <span>“Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation.”</span> <a href="http://arxiv.org/abs/1309.6392">http://arxiv.org/abs/1309.6392</a>.
-</div>
-<div class="csl-entry">
-Honnibal, Matthew, Ines Montani, Sofie Van Landeghem, and Adriane Boyd. 2020. <em><span class="nocase">spaCy: Industrial-strength Natural Language Processing in Python</span></em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.1212303">https://doi.org/10.5281/zenodo.1212303</a>.
-</div>
-<div class="csl-entry">
-Lundberg, Scott, and Su-In Lee. 2017. <span>“A Unified Approach to Interpreting Model Predictions.”</span> <em>arXiv Preprint arXiv:1705.07874</em>.
-</div>
-<div class="csl-entry">
-McInnes, L., J. Healy, and J. Melville. 2018. <span>“<span class="nocase">UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction</span>.”</span> <em>ArXiv e-Prints</em>, February. <a href="http://arxiv.org/abs/1802.03426">http://arxiv.org/abs/1802.03426</a>.
-</div>
-<div class="csl-entry">
-Nanduri, Jay, Yuting Jia, Anand Oka, John Beaver, and Yung-Wen Liu. 2020. <span>“Microsoft Uses Machine Learning and Optimization to Reduce e-Commerce Fraud.”</span> <em>INFORMS Journal on Applied Analytics</em> 50 (1): 64–79.
-</div>
-<div class="csl-entry">
-Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, et al. 2011. <span>“Scikit-Learn: Machine Learning in <span>P</span>ython.”</span> <em>Journal of Machine Learning Research</em> 12: 2825–30.
-</div>
-<div class="csl-entry">
-R Core Team. 2018. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
-</div>
-<div class="csl-entry">
-Ribeiro, Marco Tulio, Sameer Singh, and Carlos Guestrin. 2016. <span>“Why Should i Trust You?: Explaining the Predictions of Any Classifier.”</span> In <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 1135–44. ACM.
-</div>
-<div class="csl-entry">
-Taylor, SJ, and B Letham. 2017. <span>“Forecasting at Scale. PeerJ Preprints.”</span>
-</div>
-<div class="csl-entry">
-Van Nguyen, Truong, Li Zhou, Alain Yee Loong Chong, Boying Li, and Xiaodie Pu. 2020. <span>“Predicting Customer Demand for Remanufactured Products: A Data-Mining Approach.”</span> <em>European Journal of Operational Research</em> 281 (3): 543–58.
-</div>
-<div class="csl-entry">
-Zhang, Shuai, Lina Yao, Aixin Sun, and Yi Tay. 2019. <span>“Deep Learning Based Recommender System: A Survey and New Perspectives.”</span> <em>ACM Computing Surveys (CSUR)</em> 52 (1): 1–38.
-</div>
+<div id="the-most-seasonal-products-1" class="section level3" number="4.0.4">
+<h3><span class="header-section-number">4.0.4</span> The most seasonal products</h3>
+<p>The groups of products that gained the greatest <span class="math inline">\(F_S\)</span> measure are shown in the table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Name of products group</th>
+<th>seasonality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>strój świętego</td>
+<td>0.881225</td>
+</tr>
+<tr class="even">
+<td>szlafrok unisex</td>
+<td>0.757613</td>
+</tr>
+<tr class="odd">
+<td>naciągany pokrowiec</td>
+<td>0.740653</td>
+</tr>
+<tr class="even">
+<td>siatka ogrodzeniowa</td>
+<td>0.721494</td>
+</tr>
+<tr class="odd">
+<td>ostrzałka pił</td>
+<td>0.718631</td>
+</tr>
+<tr class="even">
+<td>zestaw wypoczynkowy</td>
+<td>0.718409</td>
+</tr>
+<tr class="odd">
+<td>stolik krzesła</td>
+<td>0.709425</td>
+</tr>
+<tr class="even">
+<td>ogrodowy stół</td>
+<td>0.708391</td>
+</tr>
+<tr class="odd">
+<td>donica gabionowa</td>
+<td>0.701651</td>
+</tr>
+<tr class="even">
+<td>ławka wokół</td>
+<td>0.700390</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s see the sales of <em>strój świętego</em>:</p>
+<p><img src="images/02_seasonality_stroj_swietego.png" width="700" style="display: block; margin: auto;" /></p>
+<p>Whereas it has perfect seasonal pattern it was sold only 11 times during the whole period of Shumee’s existence. It is too little to train any model, so we should disregard groups that aren’t sold up frequently enough.</p>
+<p>Actually, we left only 100 best-selling groups, starting from <em>lampa</em> (4022 sales), <em>elastyczne pokrowce</em> (2680 sales), <em>dywan</em> (2674 sales) and ending with <em>ścianki boczne</em> (204 sales). Among those 100 best-selling products the most seasonal are:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Name of products group</th>
+<th>seasonality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>siatka ogrodzeniowa</td>
+<td>0.721494</td>
+</tr>
+<tr class="even">
+<td>zestaw wypoczynkowy</td>
+<td>0.718409</td>
+</tr>
+<tr class="odd">
+<td>donica gabionowa</td>
+<td>0.701651</td>
+</tr>
+<tr class="even">
+<td>zestaw mebli</td>
+<td>0.679052</td>
+</tr>
+<tr class="odd">
+<td>parasol ogrodowy</td>
+<td>0.669685</td>
+</tr>
+<tr class="even">
+<td>kosz gabionowy</td>
+<td>0.658801</td>
+</tr>
+<tr class="odd">
+<td>markiza</td>
+<td>0.612309</td>
+</tr>
+<tr class="even">
+<td>klatka dla</td>
+<td>0.604560</td>
+</tr>
+<tr class="odd">
+<td>zaczepy do przyczepki</td>
+<td>0.592115</td>
+</tr>
+<tr class="even">
+<td>ławka ogrodowa</td>
+<td>0.586771</td>
+</tr>
+</tbody>
+</table>
+<p>Their respective plots are:</p>
+<p><img src="images/02_seasonality_siatka_ogrodzeniowa.png" width="700" style="display: block; margin: auto;" /><img src="images/02_seasonality_zestaw_wypoczynkowy.png" width="700" style="display: block; margin: auto;" /></p>
+<p>Visualization of the seasonal component of 20 most seasonal products:</p>
+<p><img src="images/02_top_seasonal.png" width="700" style="display: block; margin: auto;" /></p>
+<p>It can be seen that almost all of this products were sold the most often between March and August.</p>
+<p>Now we choose some of this most seasonal products to train some models for future predictions.</p>
 </div>
 </div>
             </section>
@@ -251,8 +344,8 @@ Zhang, Shuai, Lina Yao, Aixin Sun, and Yi Tay. 2019. <span>“Deep Learning Base
           </div>
         </div>
       </div>
-<a href="acknowledgements.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="introduction-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-for-predicting-future-sales.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -284,7 +377,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/pbiecek/xai_stories_2/edit/master/99-references.Rmd",
+"link": "https://github.com/pbiecek/xai_stories_2/edit/master/02-seasonality-analysis.Rmd",
 "text": "Edit"
 },
 "history": {
