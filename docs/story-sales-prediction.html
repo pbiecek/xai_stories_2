@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="team-3.html"/>
+<link rel="prev" href="story-embedding-based-model-for-product-recommendations.html"/>
 <link rel="next" href="story-temperature-vs-sales-prediction.html"/>
 <script src="libs/header-attrs/header-attrs.js"></script>
 <script src="libs/jquery/jquery.min.js"></script>
@@ -124,12 +124,19 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#model-explanation"><i class="fa fa-check"></i><b>2.4</b> Model Explanation</a></li>
 <li class="chapter" data-level="2.5" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#data-preprocessing"><i class="fa fa-check"></i><b>2.5</b> Data preprocessing</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="team-3.html"><a href="team-3.html"><i class="fa fa-check"></i><b>3</b> Team 3</a>
+<li class="chapter" data-level="3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html"><i class="fa fa-check"></i><b>3</b> Story: Embedding-based model for product recommendations</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="team-3.html"><a href="team-3.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
-<li class="chapter" data-level="3.2" data-path="team-3.html"><a href="team-3.html#model-1"><i class="fa fa-check"></i><b>3.2</b> Model</a></li>
-<li class="chapter" data-level="3.3" data-path="team-3.html"><a href="team-3.html#explanations-1"><i class="fa fa-check"></i><b>3.3</b> Explanations</a></li>
-<li class="chapter" data-level="3.4" data-path="team-3.html"><a href="team-3.html#summary-and-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Summary and conclusions</a></li>
+<li class="chapter" data-level="3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#model-1"><i class="fa fa-check"></i><b>3.2</b> Model</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#dataset-and-pre-processing"><i class="fa fa-check"></i><b>3.2.1</b> Dataset and pre-processing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#explanations-1"><i class="fa fa-check"></i><b>3.3</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#lime"><i class="fa fa-check"></i><b>3.3.1</b> Lime</a></li>
+<li class="chapter" data-level="3.3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#shap"><i class="fa fa-check"></i><b>3.3.2</b> Shap</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#summary-and-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Summary and conclusions</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html"><i class="fa fa-check"></i><b>4</b> Story: Sales Prediction</a>
 <ul>
@@ -164,7 +171,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#explanations-2"><i class="fa fa-check"></i><b>5.3</b> Explanations</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#instance-level-explanations-1"><i class="fa fa-check"></i><b>5.3.1</b> Instance-level explanations</a></li>
+<li class="chapter" data-level="5.3.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#instance-level-explanations-2"><i class="fa fa-check"></i><b>5.3.1</b> Instance-level explanations</a></li>
 <li class="chapter" data-level="5.3.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#model-level-explanations"><i class="fa fa-check"></i><b>5.3.2</b> Model-level explanations</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#summary-and-conclusions-3"><i class="fa fa-check"></i><b>5.4</b> Summary and conclusions</a></li>
@@ -419,7 +426,7 @@ Błażej Wiórek, Miłosz Dobersztyn</p>
 -->
 <p>The trend is clear – as the number of products sold in a given category rises, so does the predicted value of sales. This makes sense, as more products sold in the near past influence the value of products sold today. However, after some critical value, the graph flattens out. This suggests that the model is prone to overfitting i.e. a big change of products sold in only one sub-category does not influence the total sales value drastically.</p>
 </div>
-<div id="instance-level-explanations" class="section level4" number="4.3.2.2">
+<div id="instance-level-explanations-1" class="section level4" number="4.3.2.2">
 <h4><span class="header-section-number">4.3.2.2</span> Instance-level explanations</h4>
 <p>We prepared instance-level SHAP explanations, which give insight into which features had a deciding effect on the final prediction. The graph below presents an example explanation of predicted sales for 17th January 2021. By looking at the graph, one can see that variables colored red are increasing the value of prediction, while those colored blue decrease it. In this particular example, the predicted total value of sales is much higher (26,6k €) than the base value (13,8k € – the averaged sales value in the training dataset). The factors that influenced the model prediction the most are similar to those in the global SHAP explanations.</p>
 <center>
@@ -647,7 +654,7 @@ Zhang, Shuai, Lina Yao, Aixin Sun, and Yi Tay. 2019. <span>“Deep Learning Base
           </div>
         </div>
       </div>
-<a href="team-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="story-embedding-based-model-for-product-recommendations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="story-temperature-vs-sales-prediction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
