@@ -30,8 +30,11 @@ dataset-and-pre-processing
 size-structure-and-issues
 ideas-exploration
 model-overview
-tf-idf-cluster-names
 explanations-4
 lime
 shap
+tf-idf-cluster-names
+instance-level-explanations
+anchor-explanations
+cluster-level-explanation
 summary-and-conclusions-4

@@ -11,7 +11,7 @@
 
 ---
 
-Global COVID-19 pandemic pushed e-commerce sector to a new height. While lockdowns froze many classic business models, online sale platforms prospered better than ever. And any e-commerce platform will, likely sooner than later, encounter the need to include a recommendation engine in its business model. Regardless of whether its interests lie in groceries, cosmetics, cars, jewellery, or any other product, the common factor will always be a necessity to convince the client to buy more, in the most approachable way possible.
+Global COVID-19 pandemic pushed e-commerce sector to new heights. While recurring lockdowns froze many classic businesses, online sale platforms prospered better than ever. And any e-commerce platform will, likely sooner than later, encounter the need to include a recommendation engine in its business model. Regardless of whether its interests lie in groceries, cosmetics, cars, jewellery, or any other product, the common factor will always be a necessity to convince the client to buy more, in the most approachable way possible.
 
 Shumee, a client company of McKinsey with whom we have partnered on this project is no exception. During last 3 months we planned, designed, built, perfected and finally delivered a solution based on a state-of-the-art natural language processing and clustering algorithms, which we proudly present below.
 
@@ -25,17 +25,17 @@ As with any machine-learning problem, the first step is to explore the data, squ
 
 #### Size, structure and issues
 
-From the beginning the task was not easy. The dataset we received contained only around 80 000 entries, spanning over two years, and split across twenty-two columns. It may seem like a lot, but for an advanced ML model 80 000 entries present a fairly limited scope of data. To make the matter worse, not all entries were usable - some had to be discarded due to various flaws.
+From the beginning the task was not easy. The dataset we received contained only around 80 000 items, spanning over two years and split across twenty-two columns. It may seem like a lot, but for an advanced ML model 80 000 entries present a fairly limited scope of data. To make the matter worse, not all entries were usable - some needed to be discarded due to flaws and inconsistencies.
 
-Arguably most important feature, the product name, was filled with multi-lingual (mainly Polish and Czech), raw, unprocessed descriptions. Baskets, which usually serve as a main backbone for recommendation engine contained in majority two products at most.
+Arguably most important feature, the product name, was filled with multi-lingual (mainly Polish and Czech), raw, unprocessed descriptions. Baskets, which usually serve as a main backbone for recommendation engine contained in majority no more than two products.
 
-With no pre-defined categorical structure, small baskets and rich, although somewhat short and noisy product descriptions a general picture of the model was clear - it should concentrate on product descriptions, create embeddings with advanced NLP techniques and use them to recommend the most fitting item.
+With no pre-defined categorical structure, small baskets and rich, although somewhat short and noisy product descriptions a general picture of the model was clear - it should concentrate on the descriptions, create their embeddings with advanced NLP techniques and use them to recommend the most fitting item.
 
 #### Ideas & exploration
 
-During the initial phase of the project multiple models were considered, both for embedding creation and for selection of recommendations based on the aforementioned embeddings. As a baseline we have created a naive association-rule-based model and a bag-of-words (or rather, a bag-of-product-descriptions) tree-based model which treated entire product description as a single unique value. Unsurprisingly, these models performed poorly (~0.2 % accuracy on the test dataset), yet still above random guess threshold. At that time there was also an ongoing discussion of whether we should work with the raw data and make the model learn all the important caveats, or if the data should be pre-processed. In the end we tested both approaches, results of which we present in explanations section.
+During the initial phase of the project multiple models were considered, for embedding creation and for selection of recommendations based on the aforementioned embeddings. As a baseline we have created a naive association-rule-based model and a bag-of-words (or rather, a bag-of-product-descriptions) tree-based model which treated entire product description as a single unique value. Unsurprisingly, these models performed poorly (~0.2 % accuracy on the test dataset), yet still above random guess threshold. At that time there was also an ongoing discussion of whether we should work with the raw data and make the model learn all important caveats, or if the data should be pre-processed. We settled on testing both approaches, results of which we present in explanations section.
 
-After the baseline models were trained and established, a more sophisticated solutions had to be considered. In this phase we went over popular NLP embedding creation tools such as TF-IDF and its variants, GLOVE, GLOVE with TF-IDF, custom LSTM-based method, BERT and others. We also had to come up with a way to group, compare and select the embeddings. After few weeks of experiments, we have settled on the following architecture.
+After the baseline models were trained and established, a more sophisticated solutions had to be considered. In this phase we went over popular NLP embedding creation tools such as TF-IDF and its variants, GLOVE, GLOVE with TF-IDF, custom LSTM-based method, BERT and others. We also had to come up with a way to group, compare and select the embeddings. After few weeks and a fair amount of experiments, we have settled on the following architecture.
 
 #### Model overview
 
@@ -48,23 +48,17 @@ The general idea was as follows:
 
 ![](./images/05-model_overview.jpg "Model overview")
 
-Our model utilizes a beautiful state-of-the-art pre-trained multi-lingual embedding creation method - distiluse-base-multilingual-cased-v2 from the sentence_transformers library - to translate product descriptions into the high-dimensional vector space. Multi-lingual aspect is particularly important, as it allowed us to skip translation and saved possible errors that would result from it. This method works well with both Polish and Czech language.
+Our model utilizes a beautiful state-of-the-art multi-lingual embedding creation method, based on a pre-trained version of BERT from the sentence_transformers library, to translate product descriptions into a high-dimensional vector space. Multi-lingual aspect is particularly important, as it allowed us to skip translation and saved possible errors that would result from it. This method works well with both Polish and Czech language.
 
 To reduce dimensionality of the forementioned vector space we used UMAP, and then clustered the results with hdbscan. It's worth mentioning that hdbscan also returned a grey area overhead - a set of items that do not belong to any cluster. In our case this overhead oscillated at around 20%. At this point we were left with 1764 different clusters, as depicted below, and a question of how to use them to create recommendations.
 
 ![](./images/05-clusters.png "Clusters visualized")
 
-At this point an attempt to create complementary, more XAI-friendly model was made. We tried an idea revolving around collaborative cluster filtering, well described in [here](https://towardsdatascience.com/collaborative-embeddings-for-lipstick-recommendations-98eccfa816bd), but ultimately gave up on this approach due to the technical issues and quality of results.
+An attempt to create a complementary, more XAI-friendly model was made. We tried an idea revolving around collaborative cluster filtering, well described [here](https://towardsdatascience.com/collaborative-embeddings-for-lipstick-recommendations-98eccfa816bd), but ultimately gave up on this approach due to the quality of results.
 
-For the final stage of the pipeline a method of assignment to the cluster had to be chosen - we tried two, which we describe in the next section. Below we included illustration of the timeline of our efforts.
+Below we illustrated the timeline of our efforts.
 
 ![](./images/05-timeline.jpg "Clusters visualized")
-
-#### TF-IDF cluster names
-
-In order to better understand clusters, we named them. We used the tf-idf statistic, treating the combination of product descriptions belonging to one cluster as a single document. Then we used the three most common words according to tf-idf as the cluster name. This method allowed us to neatly name the clusters without using company names (Pepco, Shumee, Vixdal) that are common in the data. Some examples of names are shown below
-
-![](./images/05-cluster_names.png "Examples name of cluster")
 
 ## Explanations
 
@@ -79,40 +73,56 @@ LIME requires probability scores in the output to work, so we had to come up wit
 Below is the first explanation, depicting why these two items belong to a particular cluster. Two words with the greatest influence are "drzwi" and "bambusowy" - which makes perfect sense. It is also worth to note that clusterization works for both Polish and Czech language, as mentioned in the model overview.
 
 ![](./images/05-Lime_drzwi.jpg "Lime for the cluster with doors and bamboo")
-And while the majority of our explanations looked promising, we managed to find examples of badly formulated clusters. Which could be considered a flaw, since no researcher wants to see their model fail, but we believe otherwise - this exact scenario proves why we need XAI in the first place. Machine learning models may be good, outstanding even, but explanation techniques allow us to uncover aspects which are not yet perfect and achieve even higher reliability and robustness. Next illustration depicts one of these badly formulated clusters. The most impactful word here is 'XL' (refering to the size) and while one could attempt to make an argument that "this is good, people wearing XL-sized apparel would buy XL clothes", this particular cluster also contains an unrelated motorcycle cover.
+And while the majority of our explanations looked promising, we managed to find examples of badly formulated clusters. Which could be considered a flaw, since no researcher wants to see their model fail, but we believe otherwise - this exact scenario proves why we need XAI in the first place. Machine learning models may be good, outstanding even, but explanation techniques allow us to uncover aspects which are not yet perfect and achieve even higher reliability and robustness. Next illustration depicts one of these badly formulated clusters. The most impactful word here is 'XL' (refering to the size) and while one could make an argument that "this is good, people wearing XL-sized apparel would buy XL clothes", this particular cluster also contains an unrelated motorcycle cover.
 
 ![](./images/05-Lime_XL.jpg "Lime for the cluster with XL word")
 Keeping these findings in mind we decided to improve our model. The obvious choice was to remove arguably redundant words like 'XL' above, and so we did - and a bit more. Entire first stage of the pipeline was reworked. We used pre-processing based on the removal of stop words, numbers and lemmatization of the remaining phrases. This resulted in a visible improvement in quality of the clusters formed. Below is an example explanation of newly created cluster, with "motor" and "motocykl" words in the spotlight, an assignment criteria much more sensible than before.
 
 ![](./images/05-Lime_motor.jpg "Lime for the cluster with motors")
 
-Yet, the nothing in the word is perfect - even after aforementioned fixes few of the clusters were not correctly formed. Below is one of such examples, where the most important word is 'czerwony', meaning red in Polish and Czech. And the argument is the same as with 'XL' word before - this particular cluster groups somewhat unrelated items based solely on color.
+Yet, nothing in the word is perfect - even after pre-processing some of the clusters were not correctly formed. Below is one such example, where the most important word is 'czerwony', meaning red in Polish and Czech. And the argument is the same as with 'XL' word before - this particular cluster groups somewhat unrelated items based solely on color.
 
 ![](./images/05-Lime_czerw.jpg "Lime for the cluster with colors")
 
 ### Shap
+
+#### TF-IDF cluster names
+
+In order to gain a better overview of the clusters we decided to create a cluster naming convention and compare the results with SHAP. Tf-idf was calculated for each cluster, treating a combination of product descriptions that belonged to that cluster as a single document. We then used three most common words according to tf-idf metric to form a cluster name. Names created in such a manner did not include company names (Pepco, Shumee, Vixdal) which were fairly common in the dataset. Few examples are shown below.
+
+![](./images/05-cluster_names.png "Examples name of cluster")
+
 #### Instance level explanations
-Like Lime, Shap method also needs the likelihood of belonging to a given cluster. In this case, we used only the inversion of the distance to the closest cluster as a measure of cluster membership. We compared the explanations for two embedding spaces: Bert (512 dim), after UMAP dimension reduction (6 dim). Using two different metrics: Euclidean and cosine. From the Lime Explanation Experience, we used lemmatized dataset. Different metrics performed better depending on the space. The Euclidean distance performed better for six-dimensional spaces, while the cosine similarity has better performance in Bert space, which can be explained by the creation of embeddings in these two spaces. We assessed the results of explanations on the basis of several dozen examples from various clusters. Results are slightly worse than Lime method, but they gave meaningful results showing what influences belonging to a specific cluster.
-Below is an example of an explanation showing the same instances as the first example in the Lime method. Two words with the gratest influance are also "dzwi"/"dveri" (door in English) and "bambusowa"/"bambusovy" (bamboo in English), which is reasonable because the name of this cluster is "dveřní zasłona bambus" what can be translated to "bamboo door curtain". These explanations were made using Euclidean metrics and reduced space. This method gave the most valuable explanations, however we later use Bert space and cosine distance for performance reasons.
+
+Similarly to Lime, Shap requires probability scores in the model output. This time we skipped KNN and used an inverted euclidean/cosine distance to the closest cluster central point as a likelihood of membership. Two embedding spaces were used for tests: raw BERT (512-dimensional space), and UMAP-reduced BERT (6-dimensional space). Based on what we have learned form LIME, both of them were created from the lemmatized version of dataset. 
+
+Performance of both metrics was closely related to the selected space. Euclidean distance performed better in a six-dimensional environment, cosine similarity in a high-dimensional Bert space. We assessed the results on basis of several dozen examples from various clusters, and while they were of lower quality than the ones obtained with LIME, they still offered a meaningful insight into the correlations and strength of a different influences within a particular cluster.
+
+Below is a SHAP explanation of the first examples used in LIME section. The two most influential words are "drzwi"/"dveri" (meaning door) and "bambusowa"/"bambusovy" (meaning bamboo), same as in LIME, which seems reasonable - cluster name obtained with tf-idf as described above is "dveřní zasłona bambus" (losely translated as "bamboo door curtain"). These explanations were made with an euclidean metric and in a reduced space. Euclidean metric on a reduced space gave the the most valuable insights, however later on we used high-dimensional space and cosine distance to improve performance.
 
 ![](./images/05-shap_instance.png "Shap for instance")
 
 #### Anchor explanations
-We noticed that words rarely have a negative impact on belonging to a given cluster. Usually the impact was positive or neutral. We've expanded the instance level explanations. We used one cluster as an anchor and close cluster to anchor cluster as examined. For the Shap method we passed the inversion of the distance between instance from  examined cluster to the center of the anchor cluster. This method showed what words separate clusters.
-As an example, we provide explanations of the "mango szafka nocna" (mango nightstand) cluster where the anchor cluster was named: "lite drewno mango" (solid mango wood). We can see that the words distinguishing these two clusters are "nocny", "ręcznie" ("night", "manual"). However, the common word of these two clusters is "mango". Surprisingly, "lite drewno" has a positive or negative effect on belonging to an anchor cluster depending on its position in the description of the item, which shows the inaccuracies of this method of explanations. This phrase should always have a positive effect on belonging to a cluster called "lite drewno mango".
+
+Words in previous examples rarely shown a negative impact on the overall score - usually it was positive or neutral. To counter this flaw we attempted to expanded instance level explanations. Expanded explanation works as follows - one cluster serves as an anchor, and the closest cluster to the anchor is examined. Then SHAP is fed with a distance between an instance from the cluster being inspected and a central point of the anchor. What differentiates this method from previous one is an ability to highlight words that separate closely situated clusters.
+
+An example of this method is depicted below - we have "mango szafka nocna" (meaning mango nightstand) as a main cluster, and the anchor cluster named "lite drewno mango" (meaning solid mango wood). The words separating these two clusters are "nocny" and "ręcznie" ("night", "manual"). The word shared between the two is "mango". However, "lite drewno" can have a positive or a negative impact, depending on its position in the item description. Intuitively this phrase should always positively affect the likelihood of belonging to a cluster called "lite drewno mango", which uncovers potential flaw in this method. 
 
 ![](./images/05-anchor-instances.png "Shap for anchor")
 
 
 #### Cluster level explanation
-A global explanation would make little sense in our case. With Shap, we would get the words that repeat the most frequent in the dataset. Hence, we have decided that for each cluster we will find words that most influence the membership to this cluster. We compared this hierarchy to the cluster names which we achieved with tf-idf. We were unable to modify the masker in Shap to divide descriptions into words rather than sub-words. Hence, the importance is determined for sub-words (the word "parawan" is divided into "para" and "##wan"). The plots below show for clusters "biały książki regał", "klasická klasyczną początkujących" the importances of their sub-words in determining membership of the corresponding cluster.
 
-For the first example, the cluster name corresponds to importances from Shap plot. The most relevant subwords ("książki", "biały", "##ał", "reg") are included in the name of cluster. This shows that Shap important words have the highest tf-idf metric.
+A global explanation would make a little to no sense in our case - SHAP would simply return the words that are most frequent in the entire dataset. Instead we found the most influential words in each cluster and compared them to the cluster names created with tf-idf, as described earlier. We were unable to modify the masker in provided by the SHAP library to divide descriptions into words rather than sub-words, so the importance in the following examples is determined for sub-words only (the word "parawan" is divided into "para" and "##wan").
+
+Illustrations below depict influence of selected sub-words in the clusters "biały książki regał" and "klasická klasyczną początkujących".
+
+In first example, the cluster name corresponds to importance values from the SHAP plot. The most relevant sub-words - "książki", "biały", "##ał", "reg" - are included in the name of cluster. Highest SHAP importance values overlap here with the highest tf-idf metric.
 
 
 ![](./images/05-regal.png "Shap global regal")
 
-The second example shows that naming a cluster with tf-idf is not always reliable. In this case, the words referring to the guitar ("guitars", "guitar", "kytara") are of high importance, but are not included in the cluster name. However, after revising the elements from the cluster, the guitar is important. Cluster collects elements referring to guitar. The words "klasika" and "klasyczną" have great importance, while the word "początkujące" does not appear at all in the first 10 most important sub-words. Based on this example, we can conclude that the most important words according to Shap, better represent cluster than method using tf-idf.
+The second example contradicts the result given by the previous one and proves that naming a cluster based on tf-idf score is not flaw-free. In this case, the words referring to the guitar ("guitars", "guitar", "kytara") are of high importance, but are not included in the cluster name. A closer inspection of the cluster contents reveals clearly that guitar should indeed be important. Cluster contains various guitar-related items. The words "klasika" and "klasyczną" have high impact according to SHAP, while the word "początkujące" does not appear at all. Based on this example we can argue that SHAP importance hierarchy can as good a representation of the cluster as tf-idf-based names, and in selected cases even better.
 
 ![](./images/05-gitara.png "Shap global guitar")
 ![](./images/05-gitara_cluster.png "Guitar cluster")
@@ -121,4 +131,4 @@ The second example shows that naming a cluster with tf-idf is not always reliabl
 
 ---
 
-While our model is not perfect, we're fairly pleased with the result. Most of the clusters formed make sense and recommendations are reasonable. Possible vector of future improvement could cover issues with rare, yet not completely non-existant clusters that were formed incorrectly. Whether a greater degree of pre-processing, changes in the model architecture, new data or possibly other improvements would help, only a further development and tests would tell.
+While our model is not perfect, we're fairly pleased with the result. Most of the clusters formed make sense and recommendations are reasonable. Possible vector of future improvement could cover issues with rare, yet not completely non-existant clusters that were formed incorrectly. Whether a greater degree of pre-processing, changes in the model architecture, new data or possibly other improvements could help, only a further development and tests would tell.
