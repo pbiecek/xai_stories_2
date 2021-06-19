@@ -122,7 +122,7 @@ In first example, the cluster name corresponds to importance values from the SHA
 
 ![](./images/05-regal.png "Shap global regal")
 
-The second example contradicts the result given by the previous one and proves that naming a cluster based on tf-idf score is not flaw-free. In this case, the words referring to the guitar ("guitars", "guitar", "kytara") are of high importance, but are not included in the cluster name. A closer inspection of the cluster contents reveals clearly that guitar should indeed be important. Cluster contains various guitar-related items. The words "klasika" and "klasyczną" have high impact according to SHAP, while the word "początkujące" does not appear at all. Based on this example we can argue that SHAP importance hierarchy can as good a representation of the cluster as tf-idf-based names, and in selected cases even better.
+The second example contradicts the result given by the previous one and proves that naming a cluster based on tf-idf score is not flaw-free. In this case, the words referring to the guitar ("guitars", "guitar", "kytara") are of high importance, but are not included in the cluster name. A closer inspection of the cluster contents reveals clearly that guitar should indeed be important. Cluster contains various guitar-related items. The words "klasika" and "klasyczną" have high impact according to SHAP, while the word "początkujące" does not appear at all. Based on this example we can argue that SHAP importance hierarchy can be as good a representation of the cluster as tf-idf-based names, and in selected cases even better.
 
 ![](./images/05-gitara.png "Shap global guitar")
 ![](./images/05-gitara_cluster.png "Guitar cluster")
