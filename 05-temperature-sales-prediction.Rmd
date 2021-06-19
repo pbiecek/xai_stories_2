@@ -1,5 +1,4 @@
-
-# Temperature vs sales prediction
+# Story: Temperature vs sales prediction
 
 *Authors: Olaf Placha (University of Warsaw), Tomasz Kanas (University of Warsaw), Maciej Twardowski (University of Warsaw), Wiktoria Zapart (University of Łódź)*
 

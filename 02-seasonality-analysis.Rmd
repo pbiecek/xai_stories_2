@@ -1,10 +1,10 @@
-# Team 2
+# Story: Seasonal products
 
 *Authors: Adrian Stępaniak (EkSoc UŁ), Piotr Grabysz (MIM UW), Piotr Kuczko (MIM UW)*
 
 *Mentors: Adam Zmaczyński (Consultant), Karol Skorulski (Data Scientist)*
 
-# Introduction
+## Introduction
 
 Our team's task was to find the most seasonal products among all sold products and predict their future sells.
 
@@ -20,7 +20,7 @@ We answer question 1. and 2. in the section Most seasonal products and the quest
 
 It is important to note here that in the very early stage of the project we run into some difficulties and addressing them required a lot of data preprocessing. We keep the section Data preprocessing at the end of this article to not distract the reader from the main findings. But we would like to emphasis that data preparation was an important and a time consuming part of our work. 
 
-# The most seasonal products
+## The most seasonal products
 
 ### Data representation
 
@@ -125,7 +125,7 @@ It can be seen that almost all of this products were sold the most often between
 
 Now we choose some of this most seasonal products to train some models for future predictions.
 
-# Model for predicting future sales
+## Model for predicting future sales
 
 For sales predicting we use Prophet, a tool developed by engineers from Facebook for time series forecasting. While it is a very powerful model there are no ready-to-go XAI techniques. We describe some of our proposals later.
 
@@ -155,7 +155,7 @@ business decisions, market competition and others. This is very difficult to pre
 
 First problem which we met was: how to measure the model's error? This problem appears because we build separate models for each product. We decided to split timeseries to train and test sets in a following way: train set contains data from 2018-02 to 2020-11 and test set contains 2020-12 to 2021-02. We train the FB Prophet model on the train dataset and we measure error on the test dataset using mean squared error metric.
 
-# Model Explanation
+## Model Explanation
 
 We see that we must build own tool for model explainability, because there are no existing ready-to-go XAI techniques for a prophet model. We decided to implement feature importance based on a column drop. It works in the following way: we select one column and we drop it. For the rest of attributes we add the columns to fbprophet as reggresors and we train model. After that we can compute the error on the test dataset for this model and we devide it by error of whole model, where in whole model we have all attributes added as reggresor. Then we can do this for all attributes. Using this method we get feature importance for single products.
 
@@ -182,7 +182,7 @@ We can see what we would expected because temperature is not the most important 
 
 This tool can be used to select attributes which are the most seasonal. We can calculate feature importance and if on first place is temperature or any other attribute, which is connected with seasonality, we can consider this attribute as a seasonal one. 
 
-# Data preprocessing
+## Data preprocessing
 
 The first thing to note out is the dynamics of Shumee's retail growth
 

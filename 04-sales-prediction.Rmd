@@ -1,4 +1,4 @@
-# Story Sales Prediction
+# Story: Sales Prediction
 Long-term and short-term sales predictions based on historical data and product categories
 
 *Authors:*
