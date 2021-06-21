@@ -1,4 +1,4 @@
-# Team 1
+# BERT in the recommendation system
 
 *Authors: Mikołaj Pacek, Mateusz Kierznowski, Piotr Nawrot, Robert Krawczyk*
 
