@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Story: Sales Prediction | XAI Stories 2.0</title>
+  <meta name="description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Story: Sales Prediction | XAI Stories 2.0" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/cover.png" />
+  <meta property="og:description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Story: Sales Prediction | XAI Stories 2.0" />
+  
+  <meta name="twitter:description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  <meta name="twitter:image" content="/images/cover.png" />
+
+
+
+<meta name="date" content="2021-06-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="story-embedding-based-model-for-product-recommendations.html"/>
+<link rel="next" href="story-temperature-vs-sales-prediction.html"/>
+<script src="libs/header-attrs/header-attrs.js"></script>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><h3>XAI Stories 2.0</h3> Case studies for retail analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html"><i class="fa fa-check"></i>Foreword</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="foreword.html"><a href="foreword.html#why"><i class="fa fa-check"></i><b>0.1</b> Why?</a></li>
+<li class="chapter" data-level="0.2" data-path="foreword.html"><a href="foreword.html#what"><i class="fa fa-check"></i><b>0.2</b> What?</a></li>
+<li class="chapter" data-level="0.3" data-path="foreword.html"><a href="foreword.html#how"><i class="fa fa-check"></i><b>0.3</b> How?</a></li>
+<li class="chapter" data-level="0.4" data-path="foreword.html"><a href="foreword.html#about-academic-partners"><i class="fa fa-check"></i><b>0.4</b> About academic partners</a></li>
+<li class="chapter" data-level="0.5" data-path="foreword.html"><a href="foreword.html#about-business-partner"><i class="fa fa-check"></i><b>0.5</b> About business partner</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="team-1.html"><a href="team-1.html"><i class="fa fa-check"></i><b>1</b> Team 1</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="team-1.html"><a href="team-1.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="team-1.html"><a href="team-1.html#model"><i class="fa fa-check"></i><b>1.2</b> Model</a></li>
+<li class="chapter" data-level="1.3" data-path="team-1.html"><a href="team-1.html#explanations"><i class="fa fa-check"></i><b>1.3</b> Explanations</a></li>
+<li class="chapter" data-level="1.4" data-path="team-1.html"><a href="team-1.html#summary-and-conclusions"><i class="fa fa-check"></i><b>1.4</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html"><i class="fa fa-check"></i><b>2</b> Story: Seasonal products</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#the-most-seasonal-products"><i class="fa fa-check"></i><b>2.2</b> The most seasonal products</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#data-representation"><i class="fa fa-check"></i><b>2.2.1</b> Data representation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#seasonality-measure"><i class="fa fa-check"></i><b>2.2.2</b> Seasonality measure</a></li>
+<li class="chapter" data-level="2.2.3" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#what-kind-of-seasonality"><i class="fa fa-check"></i><b>2.2.3</b> What kind of seasonality?</a></li>
+<li class="chapter" data-level="2.2.4" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#the-most-seasonal-products-1"><i class="fa fa-check"></i><b>2.2.4</b> The most seasonal products</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#model-for-predicting-future-sales"><i class="fa fa-check"></i><b>2.3</b> Model for predicting future sales</a></li>
+<li class="chapter" data-level="2.4" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#model-explanation"><i class="fa fa-check"></i><b>2.4</b> Model Explanation</a></li>
+<li class="chapter" data-level="2.5" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#data-preprocessing"><i class="fa fa-check"></i><b>2.5</b> Data preprocessing</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html"><i class="fa fa-check"></i><b>3</b> Story: Embedding-based model for product recommendations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#model-1"><i class="fa fa-check"></i><b>3.2</b> Model</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#dataset-and-pre-processing"><i class="fa fa-check"></i><b>3.2.1</b> Dataset and pre-processing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#explanations-1"><i class="fa fa-check"></i><b>3.3</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#lime"><i class="fa fa-check"></i><b>3.3.1</b> Lime</a></li>
+<li class="chapter" data-level="3.3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#shap"><i class="fa fa-check"></i><b>3.3.2</b> Shap</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#summary-and-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html"><i class="fa fa-check"></i><b>4</b> Story: Sales Prediction</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#data"><i class="fa fa-check"></i><b>4.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#overview"><i class="fa fa-check"></i><b>4.2.1</b> Overview</a></li>
+<li class="chapter" data-level="4.2.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#assigning-missing-categories"><i class="fa fa-check"></i><b>4.2.2</b> Assigning missing categories</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#long-term-sales-forecasting"><i class="fa fa-check"></i><b>4.3</b> Long-term sales forecasting</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#model-description"><i class="fa fa-check"></i><b>4.3.1</b> Model description</a></li>
+<li class="chapter" data-level="4.3.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#model-explanations"><i class="fa fa-check"></i><b>4.3.2</b> Model explanations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#short-term-sales-forecasting"><i class="fa fa-check"></i><b>4.4</b> Short-term sales forecasting</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#models-description"><i class="fa fa-check"></i><b>4.4.1</b> Models’ description</a></li>
+<li class="chapter" data-level="4.4.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#results"><i class="fa fa-check"></i><b>4.4.2</b> Results</a></li>
+<li class="chapter" data-level="4.4.3" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#models-explanations"><i class="fa fa-check"></i><b>4.4.3</b> Models’ explanations</a></li>
+<li class="chapter" data-level="4.4.4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#why-dont-we-use-short-term-regression-model-instead"><i class="fa fa-check"></i><b>4.4.4</b> Why don’t we use short-term regression model instead</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#summary-and-conclusions-2"><i class="fa fa-check"></i><b>4.5</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html"><i class="fa fa-check"></i><b>5</b> Story: Temperature vs sales prediction</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#model-2"><i class="fa fa-check"></i><b>5.2</b> Model</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#product-categories"><i class="fa fa-check"></i><b>5.2.1</b> Product Categories</a></li>
+<li class="chapter" data-level="5.2.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#training-and-testing-procedure"><i class="fa fa-check"></i><b>5.2.2</b> Training and testing procedure</a></li>
+<li class="chapter" data-level="5.2.3" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#evaluated-models"><i class="fa fa-check"></i><b>5.2.3</b> Evaluated models</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#explanations-2"><i class="fa fa-check"></i><b>5.3</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#instance-level-explanations-2"><i class="fa fa-check"></i><b>5.3.1</b> Instance-level explanations</a></li>
+<li class="chapter" data-level="5.3.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#model-level-explanations"><i class="fa fa-check"></i><b>5.3.2</b> Model-level explanations</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#summary-and-conclusions-3"><i class="fa fa-check"></i><b>5.4</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">XAI Stories 2.0</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="story-sales-prediction" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Story: Sales Prediction</h1>
+<p>Long-term and short-term sales predictions based on historical data and product categories</p>
+<p><em>Authors:</em>
+Mateusz Sieniawski, Michał Raszkowski, Piotr Krzywicki, Stanisław Antonowicz, Adam Sobiński</p>
+<p><em>Mentors:</em>
+Błażej Wiórek, Miłosz Dobersztyn</p>
+<div id="introduction-3" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>The use of machine learning and deep learning in business settings is rapidly evolving in recent years. In particular, e-commerce companies implement AI-based solutions to aid them in following tasks:</p>
+<ul>
+<li>Recommendation systems <span class="citation"><a href="#ref-zhang2019deep" role="doc-biblioref">Zhang et al.</a> (<a href="#ref-zhang2019deep" role="doc-biblioref">2019</a>)</span></li>
+<li>Business decision making, which might include:
+<ul>
+<li>Lowering or increasing product prices <span class="citation"><a href="#ref-ferreira2016analytics" role="doc-biblioref">Ferreira, Lee, and Simchi-Levi</a> (<a href="#ref-ferreira2016analytics" role="doc-biblioref">2016</a>)</span></li>
+<li>Predicting general consumer demands <span class="citation"><a href="#ref-van2020predicting" role="doc-biblioref">Van Nguyen et al.</a> (<a href="#ref-van2020predicting" role="doc-biblioref">2020</a>)</span></li>
+</ul></li>
+<li>Fraud detection <span class="citation"><a href="#ref-nanduri2020microsoft" role="doc-biblioref">Nanduri et al.</a> (<a href="#ref-nanduri2020microsoft" role="doc-biblioref">2020</a>)</span></li>
+<li>Sales prediction <span class="citation"><a href="#ref-cadavid2018trends" role="doc-biblioref">Cadavid, Lamouri, and Grabot</a> (<a href="#ref-cadavid2018trends" role="doc-biblioref">2018</a>)</span></li>
+</ul>
+<p>In this project, we decided to explore the last problem: forecasting future profits based on historical sales data. We used the data provided by <em>shumee</em> (<a href="https://shumee.pl" class="uri">https://shumee.pl</a>), a Polish e-commerce company mostly selling various household products online.</p>
+<p>Additionally, all of our models are interpretable using multiple explainable machine learning techniques such as SHAP <span class="citation"><a href="#ref-lundberg2017unified" role="doc-biblioref">Lundberg and Lee</a> (<a href="#ref-lundberg2017unified" role="doc-biblioref">2017</a>)</span>, LIME <span class="citation"><a href="#ref-ribeiro2016should" role="doc-biblioref">Ribeiro, Singh, and Guestrin</a> (<a href="#ref-ribeiro2016should" role="doc-biblioref">2016</a>)</span>, PDP <span class="citation"><a href="#ref-friedman2001greedy" role="doc-biblioref">Friedman</a> (<a href="#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span>, Ceteris Paribus Profiles <span class="citation"><a href="#ref-goldstein2014peeking" role="doc-biblioref">Goldstein et al.</a> (<a href="#ref-goldstein2014peeking" role="doc-biblioref">2014</a>)</span>, and Variable Importance <span class="citation"><a href="#ref-fisher2019models" role="doc-biblioref">Fisher, Rudin, and Dominici</a> (<a href="#ref-fisher2019models" role="doc-biblioref">2019</a>)</span>. Most of these popular XAI methods are implemented in dalex package <span class="citation"><a href="#ref-biecek2018dalex" role="doc-biblioref">Biecek</a> (<a href="#ref-biecek2018dalex" role="doc-biblioref">2018</a>)</span>.</p>
+</div>
+<div id="data" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Data</h2>
+<div id="overview" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Overview</h3>
+<p>The data consisted of a list of around 180 thousand orders starting in February 2018 and spanning three years. This dataset proved to be challenging because the three-year time period is too short to allow learning yearly trends. Moreover, essentially the only information that was available about products was their name. Another obstacle was that <em>shumee</em> is a small, yet rapidly growing company. An obvious rising trend can be observed in the graph of sales.</p>
+<center>
+<div class="figure">
+<img src="images/04_monthly_sales.png" style="width:70.0%" alt="" />
+<p class="caption">Monthly shumee sales from February 2018 to February 2021.</p>
+</div>
+</center>
+<p>During the global COVID-19 pandemic (which started in Poland in March 2020), many e-commerce companies observed an increase in sales. As we can see from the graph above, this was also the case with <em>shumee</em>. Another crucial factor was that the company has been expanding and has entered new markets in European Union, two of the biggest being Czech and Slovak markets.</p>
+<p>Because of those factors, after some preliminary experiments we decided that we won’t use time series-specific methods like ARIMA or a more recent <em>Prophet</em> <span class="citation"><a href="#ref-taylor2017forecasting" role="doc-biblioref">Taylor and Letham</a> (<a href="#ref-taylor2017forecasting" role="doc-biblioref">2017</a>)</span>, as they weren’t able to accurately predict even a couple of days or weeks of sales. Instead, we used traditional machine learning models suitable for learning non-linear relationships.</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="81%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Order ID</td>
+<td>Cart ID – products bought together had the same order ID</td>
+</tr>
+<tr class="even">
+<td>Date</td>
+<td>Date of order (with minute-level resolution)</td>
+</tr>
+<tr class="odd">
+<td>Source</td>
+<td>Distributor of the product</td>
+</tr>
+<tr class="even">
+<td>Country</td>
+<td>These three columns regard the client address</td>
+</tr>
+<tr class="odd">
+<td>City</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ZIP code</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Product name</td>
+<td>Product names were in multiple languages, mostly in Polish</td>
+</tr>
+<tr class="even">
+<td>SKU</td>
+<td>Stock keeping unit (<a href="https://en.wikipedia.org/wiki/Stock_keeping_unit" class="uri">https://en.wikipedia.org/wiki/Stock_keeping_unit</a>)</td>
+</tr>
+<tr class="odd">
+<td>EAN</td>
+<td>International Article Number (<a href="https://en.wikipedia.org/wiki/International_Article_Number" class="uri">https://en.wikipedia.org/wiki/International_Article_Number</a>)</td>
+</tr>
+<tr class="even">
+<td>Quantity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Product Price</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Currency</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Delivery cost</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Delivery type</td>
+<td>E.g. which courier company was delivering the product</td>
+</tr>
+</tbody>
+</table>
+<center>
+<div class="figure">
+<img src="images/04_number_of_missing_entries.png" alt="" />
+<p class="caption">Log-Histogram of missing labels</p>
+</div>
+</center>
+<p>To clean the data we removed products with missing or negative prices. We also unified the language of product descriptions to Polish using third-party translation software <em>deepL</em> (<a href="https://www.deepl.com/" class="uri">https://www.deepl.com/</a>). Finally, the currencies of all orders were unified to euro according to the currency exchange rate in a day of a given order.</p>
+<p>In the original data, there was no information about product categories. Initially, we wanted to retrieve it from SKU and EAN, but unfortunately, these didn’t carry any meaningful insights about the product. A large number of rows are missing these, and each distributor has its own naming conventions.</p>
+<p>We wanted to take advantage of categories assigned to each product, therefore we scrapped around 30 thousand product categories from the <em>shumee</em> official website. The product categories turned out to be organized at three levels.</p>
+<center>
+<div class="figure">
+<img src="images/04_hierarchy.png" alt="" />
+<p class="caption">Hierarchy of product categories</p>
+</div>
+</center>
+<p>The last one was too fine-grained and sometimes contained product names, so we decided to only use the first two. For example, a first-level category <em>Dom i wnętrze</em> had two sub-categories: <em>Meble</em> and <em>Oświetlenie</em>. The distribution of the amount of first-level product categories looks as follows:</p>
+<center>
+<div class="figure">
+<img src="images/04_category_distribution.png" alt="" />
+<p class="caption">Log-histogram for product categories</p>
+</div>
+</center>
+</div>
+<div id="assigning-missing-categories" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Assigning missing categories</h3>
+<p>About 2/3 of products didn’t have categories assigned. We solved this issue with the nearest neighbors approach. We used <em>spaCy</em> <span class="citation"><a href="#ref-spacy" role="doc-biblioref">Honnibal et al.</a> (<a href="#ref-spacy" role="doc-biblioref">2020</a>)</span> library for obtaining part of speech tags and also word vectors for each word of product description. We then averaged word vectors of nouns and adjectives. The <em>UMAP</em> <span class="citation"><a href="#ref-2018arXivUMAP" role="doc-biblioref">McInnes, Healy, and Melville</a> (<a href="#ref-2018arXivUMAP" role="doc-biblioref">2018</a>)</span> plot constructed on word vectors shows that products in each category are very diverse. But they generally form small subclusters in which the nearest neighbor query might work correctly.</p>
+<center>
+<div class="figure">
+<img src="images/04_umap_visualization.png" style="width:70.0%" alt="" />
+<p class="caption">UMap visualization of product categories</p>
+</div>
+</center>
+<p>The resulting vectors for each known product were put in a KDTree data structure for fast nearest neighbor queries. The model achieved 90% accuracy and 81% balanced accuracy on a 10-fold cross-validation. We also prepared LIME instance-level explanations of our model.</p>
+<center>
+<p><img src="images/04_not_motoryzacja.png" style="width:80.0%" />
+<img src="images/04_not_motoryzacja_2.png" style="width:80.0%" />
+<img src="images/04_not_sprzet_agd.png" style="width:80.0%" /></p>
+<div class="figure">
+<img src="images/04_not_dom_i_wnetrze.png" style="width:80.0%" alt="" />
+<p class="caption">kNN for category classification – LIME explanations</p>
+</div>
+</center>
+</div>
+</div>
+<div id="long-term-sales-forecasting" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Long-term sales forecasting</h2>
+<p>The long-term sales figures forecasting might have a crucial impact on the company’s strategy. We prepared a machine learning model, which can forecast up to a few months of future sales.</p>
+<div id="model-description" class="section level3" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Model description</h3>
+<center>
+<div class="figure">
+<img src="images/04_long_term_prediction.png" alt="" />
+<p class="caption">On the left: Prediction of our model vs actual data – grey line divides train/test sets. On the right: Three-month forecast by our model</p>
+</div>
+</center>
+<p>We used a random forest model that predicted the daily value of sales i.e. given a day, what will be the total value of all products sold this day. The training was done on the whole dataset, except for the last two months that were used later for testing. To tune hyperparameters, we utilized the <em>optuna</em> <span class="citation"><a href="#ref-optuna_2019" role="doc-biblioref">Akiba et al.</a> (<a href="#ref-optuna_2019" role="doc-biblioref">2019</a>)</span> framework, which automatically searched for the best parameters with regard to MSE score on cross-validation. For cross-validation we used TimeSeriesSplit from sklearn <span class="citation"><a href="#ref-scikit-learn" role="doc-biblioref">Pedregosa et al.</a> (<a href="#ref-scikit-learn" role="doc-biblioref">2011</a>)</span> to assure time contiguity and that the model can not use data coming from the future. The model uses as input:</p>
+<ul>
+<li>The number of products sold in each first-level category averaged over three two-week windows in the past</li>
+<li>Information whether we are after or before the start of the COVID-19 pandemic</li>
+<li>Date (year, month, day, weekday)</li>
+</ul>
+<center>
+<div class="figure">
+<img src="images/04_window_averaging.png" style="width:70.0%" alt="" />
+<p class="caption">The model uses as input the number of products sold in each first-level category averaged over three two-week windows in the past</p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>MAE</th>
+<th>RMSE</th>
+<th>MAE avg. over months</th>
+<th>RMSE avg. over months</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Value in euro</td>
+<td>3335</td>
+<td>4230</td>
+<td>1211</td>
+<td>1288</td>
+</tr>
+</tbody>
+</table>
+<div class="figure">
+<img src="" alt="" />
+<p class="caption">Table of metrics on the test set. The model predicts sales figures with daily resolution. Its predictions could be summed over whole months. The two rightmost columns show an averaged error in such a case, which is relatively small – MAE averaged over months is 8,7% of mean sales value and RMSE averaged over months is 9,3% of mean sales value.</p>
+</div>
+</center>
+</div>
+<div id="model-explanations" class="section level3" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Model explanations</h3>
+<div id="global-explanations" class="section level4" number="4.3.2.1">
+<h4><span class="header-section-number">4.3.2.1</span> Global explanations</h4>
+<center>
+<div class="figure">
+<img src="images/04_shap_global.png" alt="" />
+<p class="caption">global SHAP explanations of the long-term model</p>
+</div>
+</center>
+<p>It represents the 20 variables that had the greatest impact on the predictions of the model. At the top of the chart, there are variables with the largest SHAP attributions. For example, <em>Ilosc_Budowa i remont_120_w14</em> was the most important variable. Let’s break down the name of this feature: Ilosc means the number of products sold in the category <em>Budowa i remont 120</em> days ago averaged throughout the length of <em>14</em> days.</p>
+<p>An important observation is that the three most important product categories to the model (<em>Budowa i remont</em>, <em>Dom i wnętrze</em>, <em>Ogród</em>) are also the top three first-level categories in terms of the number of orders. This suggests that the model properly recognizes the importance of each category.</p>
+<p>We also prepared Partial Dependence Plot explanations to get insight into how a change of one feature impacts the overall predictions of the model:</p>
+<center>
+<p><img src="images/04_pdp_1.png" style="width:80.0%" />
+<img src="images/04_pdp_2.png" style="width:80.0%" />
+<img src="images/04_pdp_3.png" style="width:80.0%" /></p>
+<div class="figure">
+<img src="" alt="" />
+<p class="caption">Partial dependence plots for long-term model wrt different features</p>
+</div>
+</center>
+<!--
+
+<img src="images/04_pdp_1.png" width="50%" /><img src="images/04_pdp_2.png" width="50%" /><img src="images/04_pdp_3.png" width="50%" /><img src="images/04_pdp_4.png" width="50%" />
+
+![Partial dependence plots for long-term model wrt different features]()
+-->
+<p>The trend is clear – as the number of products sold in a given category rises, so does the predicted value of sales. This makes sense, as more products sold in the near past influence the value of products sold today. However, after some critical value, the graph flattens out. This suggests that the model is prone to overfitting i.e. a big change of products sold in only one sub-category does not influence the total sales value drastically.</p>
+</div>
+<div id="instance-level-explanations-1" class="section level4" number="4.3.2.2">
+<h4><span class="header-section-number">4.3.2.2</span> Instance-level explanations</h4>
+<p>We prepared instance-level SHAP explanations, which give insight into which features had a deciding effect on the final prediction. The graph below presents an example explanation of predicted sales for 17th January 2021. By looking at the graph, one can see that variables colored red are increasing the value of prediction, while those colored blue decrease it. In this particular example, the predicted total value of sales is much higher (26,6k €) than the base value (13,8k € – the averaged sales value in the training dataset). The factors that influenced the model prediction the most are similar to those in the global SHAP explanations.</p>
+<center>
+<div class="figure">
+<img src="images/04_shap_local.png" alt="" />
+<p class="caption">SHAP local explanation of prediction for 17th January 2021</p>
+</div>
+</center>
+<p>17th January 2021 was almost a year after the start of the COVID-19 pandemic. The red bar stands for the real value of sales, while the blue one is the hypothetical value of sales if there was no pandemic. With this plot, the final user can answer the question: “What would the total sales figures look like if the pandemic didn’t happen?”</p>
+<center>
+<div class="figure">
+<img src="images/04_covid_no_covid.png" alt="" />
+<p class="caption">17th January 2021 if the pandemic didn’t happen</p>
+</div>
+</center>
+<p>Another type of instance-level explanation we prepared was Ceteris Paribus profiles, which can provide information on how in the case of a particular observation, the total sales value would change if the value of a given feature would change. These profiles regard the same observation as instance-level SHAP explanations presented above. In the following graphs the red dot symbolizes the real value of sales, while the blue line shows the model prediction if a given feature value changed.</p>
+<center>
+<div class="figure">
+<img src="images/04_cp_weekday.png" alt="" />
+<p class="caption">Ceteris paribus profile for 17th January changing the weekday</p>
+</div>
+</center>
+<p>We observed an interesting trend regarding the weekdays. The largest sales figures are on Mondays and are slowly decreasing throughout the week, until the lowest point, which happens on Saturdays. The model successfully captured this trend as visible in the graph above. Later on, the <em>shumee</em> representatives confirmed that this trend is in fact happening and our model properly understood it.</p>
+<center>
+<p><img src="images/04_cp_ogrod.png" width="50%" /><img src="images/04_cp_dom_i_wnetrze.png" width="50%" /></p>
+<div class="figure">
+<img src="" alt="" />
+<p class="caption">Ceteris paribus profile for 17th Januray changing the volume of Garden and House categories</p>
+</div>
+</center>
+<p>The Ceteris Paribus profiles for categories look very similar to the PDP plots. The highly dynamic, almost discontinuous graphs are due to the fact that we used the random forest as our primary model. For example, in the case of neural networks, these graphs would look smoother.</p>
+<center>
+<div class="figure">
+<img src="images/04_cp_dom_i_wnetrze_150.png" alt="" />
+<p class="caption">Anomaly in ceteris paribus sales dynamic</p>
+</div>
+</center>
+<p>We also observed an anomaly. In most PDP and Ceteris Paribus plots, a higher number of sold products in a category results in greater overall sales figures. However, in this profile, it is quite the opposite. This phenomenon is intriguing, yet the explanation is quite simple. If the sales figures in the recent few months were ‘flat’ then if the number of sold products 5 months ago were lower, it would suggest the existence of a rising trend, increasing the total sales prediction.</p>
+<center>
+<div class="figure">
+<img src="images/04_anomaly_explanation.png" alt="" />
+<p class="caption">Explanation of the anomaly in sales dynamic</p>
+</div>
+</center>
+</div>
+<div id="choice-of-model-features" class="section level4" number="4.3.2.3">
+<h4><span class="header-section-number">4.3.2.3</span> Choice of model features</h4>
+<p>In this section, we explain why we have chosen the aforementioned input variables. Most of the comparisons were based on train and test metrics – mainly MAE &amp; RMSE. But the interesting ones utilize XAI techniques, which allow us to understand how our model works and adjust the input variables accordingly.</p>
+<div id="two-week-windows" class="section level5" number="4.3.2.3.1">
+<h5><span class="header-section-number">4.3.2.3.1</span> Two-week windows</h5>
+<p>We wanted to know how large the rolling window over which we average sales numbers should be. Therefore, we built a model which used windows of multiple sizes: 1, 7, and 14 days. The SHAP attributions for this model looked as follows:</p>
+<center>
+<div class="figure">
+<img src="images/04_shap_window_sizes.png" alt="" />
+<p class="caption">SHAP attributions with window sizes of 1, 7, 14</p>
+</div>
+</center>
+<p>We can see that this model looked almost only at the two-week windows. Also, the two-week windows were always more important than the other window sizes. Additionally, this model has around 10% worse performance on the test set compared to our final model. It may suggest that additional window sizes in the model inputs make it overfit more.</p>
+</div>
+<div id="using-the-number-of-sales-only" class="section level5" number="4.3.2.3.2">
+<h5><span class="header-section-number">4.3.2.3.2</span> Using the number of sales only</h5>
+<center>
+<p><img src="images/04_counts_only.png" width="50%" /><img src="images/04_counts_and_sales.png" width="50%" /></p>
+<div class="figure">
+<img src="" alt="" />
+<p class="caption">Model predictions using counts only vs Model predictions using counts and values</p>
+</div>
+</center>
+<p>Initially, our model was trained on both the number of products sold, as well as the total value of products sold per category. At one point, we decided to check how the performance would change if we were to train it on the number of products sold only. To our surprise, the latter performed around 50% better on the test set while maintaining similar errors on the train set. We believe that adding this additional information rendered the model prone to overfitting.</p>
+</div>
+<div id="beforeafter-start-of-pandemic" class="section level5" number="4.3.2.3.3">
+<h5><span class="header-section-number">4.3.2.3.3</span> Before/after start of pandemic</h5>
+<p>Considering the impact of the COVID-19 pandemic on the global economy, we decided to include information about it for our model. At first, our model used the number of days before or after the start of the pandemic. However, the addition of this variable caused huge problems with overfitting, which can be seen on the global SHAP attribution graph below.</p>
+<center>
+<div class="figure">
+<img src="images/04_shap_days_since_covid.png" alt="" />
+<p class="caption">Shap attributions with new <em>Days_since_covid</em> feature included</p>
+</div>
+</center>
+<p>Replacing this feature with a boolean flag for whether we are before or after the pandemic helped tremendously. The model performance on the test set improved by roughly 45%.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="short-term-sales-forecasting" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Short-term sales forecasting</h2>
+<p>In the previous section, we analyzed a regression problem: “What will be the total sales figures value three months from now?” In this section, we looked at this problem from a different perspective, as a classification problem. The question we try to answer here asks: “Is sales figures’ total value going to be higher or lower than in the previous day?”</p>
+<div id="models-description" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Models’ description</h3>
+<p>The use-case of this short-term model is significantly different from the long-term one. Now we want to predict highly dynamic changes that happen over a time span of several days. This makes it possible to, for example, quickly create appropriate coupon strategies which suit customers’ preferences at a given time.</p>
+<center>
+<div class="figure">
+<img src="images/04_classification_regression.png" style="width:75.0%" alt="" />
+<p class="caption">Ours long term regression vs short-term classification approaches</p>
+</div>
+</center>
+<p>Moreover, it’s viable to look at the most recent data points when making sales predictions for the next day. If we were to use our previous long-term model for such a task, we wouldn’t take into account the sales value from the last few immediate days, despite the fact that they provide much of the precious information.</p>
+<p>To this end, we developed short-term models in which inputs are sales (volume and total price) divided into particular subcategories over the span of 5 last days. We also provide weekday, month, and year to the model inputs. For models different than decision-tree-based, we decided to use the one-hot encoding of months and weekdays. Otherwise, models such as linear regression would have been at a significant disadvantage.</p>
+<p>To solve this short-term classification problem we trained three models:</p>
+<ul>
+<li>adaboost gradient boosting method using sklearn</li>
+<li>lasso logistic regression</li>
+<li>fully connected feed forward neural network</li>
+</ul>
+<p>For AdaBoost and logistic regression default parameters from sklearn worked fine, and further hyper-parameter search gave very similar results, so we stayed with default ones.</p>
+<p>Only the neural network approach required manual extensive tuning. To make this approach work, we find out the architecture, which consists of two hidden layers of size 32, ReLU activations, dropout of 0.5, batch-normalization, optimized using the Adam optimizer. Despite all these regularization techniques, the neural network approach overfitted the most getting results subpar to AdaBoost and logistic regression.</p>
+</div>
+<div id="results" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Results</h3>
+<center>
+<div class="figure">
+<img src="images/04_classification_scores.png" style="width:70.0%" alt="" />
+<p class="caption">Balanced accuracies of different models for short-term movement classification</p>
+</div>
+</center>
+<p>All classification models predicting whether the sales will move up or down significantly outperformed simple baselines such as returning last movement class. The AdaBoost model got the best balanced accuracy score of all models, suggesting the need to leverage input variables’ interaction. The logistic regression model, which scored as the second, won’t capture such interaction. The third and last was the neural network model. Generally, those models perform better on unstructured data while not as great on tabular data as the previous two.</p>
+<center>
+<div class="figure">
+<img src="images/04_classification_roc.png" style="width:70.0%" alt="" />
+<p class="caption">ROC curves of different models for short-term movement classification</p>
+</div>
+</center>
+<p>We also illustrated the models’ performance using ROC (receiver operating characteristic) curves, which show false positive and true positive rates of the model for a given threshold. Again, this time comparing the AUC score (Area Under Curve), the AdaBoost model works best, followed by logistic regression, then by the neural network.</p>
+<p>One can observe that it is possible to choose a threshold value such that the gradient boosting model has a true positive rate of 0.5 while maintaining a false positive rate of 0. In other words, when the model says the sales value will go up, with a very high probability it will go up. That property can certainly be used for shumee’s competitive advantage.</p>
+</div>
+<div id="models-explanations" class="section level3" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Models’ explanations</h3>
+<center>
+<p><img src="images/04_gb_variable_importance.png" />
+<img src="images/04_logistic_regression_variable_importance.png" /></p>
+<div class="figure">
+<img src="images/04_neural_net_variable_importance.png" alt="" />
+<p class="caption">Permutational variable importance of trained models</p>
+</div>
+</center>
+<p>We calculate the global permutational variable importance of input features for each model. Overall, the most important feature was the weekday. In the case of AdaBoost, it had an enormous impact on model prediction. For the other two models, it was divided into effectively six different variables via one-hot encoding. From these variables, the ones indicating Saturday, Sunday, or Monday carried greater importance. This matches with an observation that the significant change in sales dynamic happens for these weekdays.</p>
+<center>
+<div class="figure">
+<img src="images/04_pdp_weekday_dynamic.png" style="width:80.0%" alt="" />
+<p class="caption">Aggregated partial dependence profiles illustrating sales dynamic wrt weekday</p>
+</div>
+</center>
+<p>Given that weekday is the most important variable, we investigate its dynamic using partial dependence profiles. We come to the conclusion that the same trend as in the long-term predictions can be observed here in the PDP of the weekday feature. The probability that the sales value will rise decreases throughout the week, having the lowest value on Saturday and the highest value on Monday.</p>
+</div>
+<div id="why-dont-we-use-short-term-regression-model-instead" class="section level3" number="4.4.4">
+<h3><span class="header-section-number">4.4.4</span> Why don’t we use short-term regression model instead</h3>
+<p>We used a classification model because short-term regression models’ quality was mediocre and comparable to simple baselines such as returning last sales value or exponential moving average. In other words, for this particular dataset, short-term sales regression is a harder problem than short-term sales movement classification, in which we got surprisingly good results (80% balanced accuracy).</p>
+<p>We came to this conclusion by comparing gradient boosting short-term regression model (with the same inputs as described above) to 3 simple baselines:</p>
+<ul>
+<li>Standard xgboost algorithm, with taking inputs from different number of days into account</li>
+<li>Constant model, which returns mean value over test set (first two months of 2021)</li>
+<li>Model which returns sales value from the previous day</li>
+<li>Exponential moving average of sales values with different effective window sizes</li>
+</ul>
+<center>
+<div class="figure">
+<img src="images/04_short_term_regression_baselines.png" style="width:80.0%" alt="" />
+<p class="caption">Comparison of short-term regression models to simple baselines</p>
+</div>
+</center>
+<p>The interesting fact of this comparison is the dynamic of exponential moving average wrt effective window size. Compared to xgboost model, which has seemingly non-structured dynamic wrt window-size, exponential moving average has very regular error dynamic, which decreases with window size up to 8-10 and then increases.</p>
+</div>
+</div>
+<div id="summary-and-conclusions-2" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Summary and conclusions</h2>
+<p>We prepared sales forecasting machine learning models based on data provided by shumee, a Polish e-commerce company. Our main focus was on long-term (up to a few months) sales figures forecast, but we also tackled the problem with a shorter prediction time span.</p>
+<p>These models can have a major impact on the strategy of the company with serious business applications. Our main long-term predictions could help more precisely foresee the growth of <em>shumee</em>, as well as anticipate demand in the broader time horizon. The short-term model can give insights into the dynamic, day-to-day sales changes. This makes it possible to, for example, create appropriate coupon strategies which suit customers’ preferences in no time.</p>
+<p>We utilized multiple XAI techniques, which gave us insight into which variables are the most important and how they influence the predictions. Using them, we successfully debugged and improved the quality of our models. Moreover, the final user does not have to treat the models as black-boxes thanks to instance-level explanations. One can get meaningful information about how they work underneath and explain their predictions.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-optuna_2019" class="csl-entry">
+Akiba, Takuya, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. 2019. <span>“Optuna: A Next-Generation Hyperparameter Optimization Framework.”</span> In <em>Proceedings of the 25rd <span>ACM</span> <span>SIGKDD</span> International Conference on Knowledge Discovery and Data Mining</em>.
+</div>
+<div id="ref-biecek2018dalex" class="csl-entry">
+Biecek, Przemysław. 2018. <span>“DALEX: Explainers for Complex Predictive Models in r.”</span> <em>The Journal of Machine Learning Research</em> 19 (1): 3245–49.
+</div>
+<div id="ref-cadavid2018trends" class="csl-entry">
+Cadavid, Juan Pablo Usuga, Samir Lamouri, and Bernard Grabot. 2018. <span>“Trends in Machine Learning Applied to Demand &amp; Sales Forecasting: A Review.”</span> In <em>International Conference on Information Systems, Logistics and Supply Chain</em>.
+</div>
+<div id="ref-ferreira2016analytics" class="csl-entry">
+Ferreira, Kris Johnson, Bin Hong Alex Lee, and David Simchi-Levi. 2016. <span>“Analytics for an Online Retailer: Demand Forecasting and Price Optimization.”</span> <em>Manufacturing &amp; Service Operations Management</em> 18 (1): 69–88.
+</div>
+<div id="ref-fisher2019models" class="csl-entry">
+Fisher, Aaron, Cynthia Rudin, and Francesca Dominici. 2019. <span>“All Models Are Wrong, but Many Are Useful: Learning a Variable’s Importance by Studying an Entire Class of Prediction Models Simultaneously.”</span> <a href="http://arxiv.org/abs/1801.01489">http://arxiv.org/abs/1801.01489</a>.
+</div>
+<div id="ref-friedman2001greedy" class="csl-entry">
+Friedman, Jerome H. 2001. <span>“Greedy Function Approximation: A Gradient Boosting Machine.”</span> <em>Annals of Statistics</em>, 1189–1232.
+</div>
+<div id="ref-goldstein2014peeking" class="csl-entry">
+Goldstein, Alex, Adam Kapelner, Justin Bleich, and Emil Pitkin. 2014. <span>“Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation.”</span> <a href="http://arxiv.org/abs/1309.6392">http://arxiv.org/abs/1309.6392</a>.
+</div>
+<div id="ref-spacy" class="csl-entry">
+Honnibal, Matthew, Ines Montani, Sofie Van Landeghem, and Adriane Boyd. 2020. <em><span class="nocase">spaCy: Industrial-strength Natural Language Processing in Python</span></em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.1212303">https://doi.org/10.5281/zenodo.1212303</a>.
+</div>
+<div id="ref-lundberg2017unified" class="csl-entry">
+Lundberg, Scott, and Su-In Lee. 2017. <span>“A Unified Approach to Interpreting Model Predictions.”</span> <em>arXiv Preprint arXiv:1705.07874</em>.
+</div>
+<div id="ref-2018arXivUMAP" class="csl-entry">
+McInnes, L., J. Healy, and J. Melville. 2018. <span>“<span class="nocase">UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction</span>.”</span> <em>ArXiv e-Prints</em>, February. <a href="http://arxiv.org/abs/1802.03426">http://arxiv.org/abs/1802.03426</a>.
+</div>
+<div id="ref-nanduri2020microsoft" class="csl-entry">
+Nanduri, Jay, Yuting Jia, Anand Oka, John Beaver, and Yung-Wen Liu. 2020. <span>“Microsoft Uses Machine Learning and Optimization to Reduce e-Commerce Fraud.”</span> <em>INFORMS Journal on Applied Analytics</em> 50 (1): 64–79.
+</div>
+<div id="ref-scikit-learn" class="csl-entry">
+Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, et al. 2011. <span>“Scikit-Learn: Machine Learning in <span>P</span>ython.”</span> <em>Journal of Machine Learning Research</em> 12: 2825–30.
+</div>
+<div id="ref-ribeiro2016should" class="csl-entry">
+Ribeiro, Marco Tulio, Sameer Singh, and Carlos Guestrin. 2016. <span>“Why Should i Trust You?: Explaining the Predictions of Any Classifier.”</span> In <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 1135–44. ACM.
+</div>
+<div id="ref-taylor2017forecasting" class="csl-entry">
+Taylor, SJ, and B Letham. 2017. <span>“Forecasting at Scale. PeerJ Preprints.”</span>
+</div>
+<div id="ref-van2020predicting" class="csl-entry">
+Van Nguyen, Truong, Li Zhou, Alain Yee Loong Chong, Boying Li, and Xiaodie Pu. 2020. <span>“Predicting Customer Demand for Remanufactured Products: A Data-Mining Approach.”</span> <em>European Journal of Operational Research</em> 281 (3): 543–58.
+</div>
+<div id="ref-zhang2019deep" class="csl-entry">
+Zhang, Shuai, Lina Yao, Aixin Sun, and Yi Tay. 2019. <span>“Deep Learning Based Recommender System: A Survey and New Perspectives.”</span> <em>ACM Computing Surveys (CSUR)</em> 52 (1): 1–38.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="story-embedding-based-model-for-product-recommendations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="story-temperature-vs-sales-prediction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/pbiecek/xai_stories_2/edit/master/04-sales-prediction.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
