@@ -39,7 +39,7 @@ Preprocessing pipeline consists of:
 
 <center>Figure 1. Examples of data preprocessing.</center>
 
-![](https://i.imgur.com/6oYL5aC.png)
+![](./images/01_01.png)
 
 Figure 1 shows examples of product names before and after preprocessing. We chose to remove those features because we wanted our model to distinguish products based on their high-level semantic meaning and not based on very specific parameters such as the exact size of a chair (61x70x74cm). 
 
@@ -55,10 +55,10 @@ Our main target is to build a pipeline, which could recommend products similar t
 [BERT](https://arxiv.org/pdf/1810.04805.pdf&usg=ALkJrhhzxlCL6yTht2BRmH9atgvKFxHsxQ) stands for Bidirectional Encoder Representations from Transformers. That language model can manage the ambiguity of the text by following steps. Firstly BERT is based on the Transformer architecture, which means that model adopts the mechanism of attention, weighing the influence of different parts of the input data. Secondly, BERT is deeply bidirectional which means that it learns information from both the left and the right sides of a word’s context during the training. The bidirectionality of the model is extremely important in understanding the context of a sentence. Provided illustration in figure 2 shows how BERT understands the context bidirectionally.
 
 <center>Figure 2. BERT's understanding of the context.</center>
-<p align="center">
-  <img width="460" height="250" src="https://i.imgur.com/CcpT8vW.png/100/100">
-</p>
+
+![](./images/01_02.png)
 <center>Source: https://www.analyticsvidhya.com/blog/2019/09/demystifying-bert-groundbreaking-nlp-framework/</center>
+
 
 We used BERT to provide word embeddings for every product name within the data. Word embedding is a method used to represent discrete variables as continuous vectors. Thus words that are closer in the vector space are expected to be similar in their meaning. The quality of embedded words is vastly important in the following clustering phase. In our work, we used [sentence_transformers](https://pypi.org/project/sentence-transformers/) module to provide the BERT model.
 
@@ -79,7 +79,7 @@ We chose 2 clustering algorithms ([KMeans](https://en.wikipedia.org/wiki/K-means
 
 <center>Figure 3. Comparison of clustering methods.</center>
 
-![](https://i.imgur.com/EkacruS.png)
+![](./images/01_03.png)
 
 
 
@@ -88,7 +88,7 @@ Given a new product (its name), we pass it to the BERT to get its embedding, the
 
 <center>Figure 4. High level graph our recommendation system.</center>
 
-![](https://i.imgur.com/3NZtGkQ.png)
+![](./images/01_04.png)
 
 Table 1 shows some example recommendations.
 
@@ -129,14 +129,12 @@ Suppose the client wants to buy product named `siatka ogrodzeniowa metal + pcv r
 
 <center>Figure 5. LIME applied on the product name.</center>
 
-![](https://i.imgur.com/Ye4e2wD.png)
-
+![](./images/01_05.png)
 Now we can ask the system about a recommendation for this product. Our model shows that `siatka ogrodzeniowa ocynkowana` is a proper recommendation. Secondly, we can use LIME to see contributions within the same cluster. 
 
 <center>Figure 6. LIME applied on the recommendation.</center>
 
-![](https://i.imgur.com/J7d3AVz.png)
-
+![](./images/01_06.png)
 These cases provide an insight that the word `ogrodzeniowa` connects these two sentences and it explains why our model recommended that specific product. 
 
 As mentioned before, LIME contributions per word can be accumulated for a specific cluster. Thus LIME indicates words that have vast positive or negative contributions within the cluster.
@@ -145,14 +143,12 @@ For cluster which is presented by the following figure 7.
 
 <center>Figure 7. Example cluster.</center>
 
-![](https://i.imgur.com/PFi1wLI.png)
-
+![](./images/01_07.png)
 we cumulated LIME importance values for every word. LIME indicates five words that provide positive impact to the cluster:
 
 <center>Figure 8. Top 5 best words in the cluster.</center>
 
-![](https://i.imgur.com/lx86vi9.png)
-
+![](./images/01_08.png)
 The data shows that words connected to the light have a positive impact on the cluster. As we can see from figure 7 all sentences are in fact related to lamps and lights. 
 
 ### SHAP
@@ -183,8 +179,7 @@ Tokenization is essentially splitting a phrase, sentence, paragraph, or an entir
 
 <center>Figure 9. Tokenization.</center>
 
-![](https://i.imgur.com/EBnApFe.png)
-
+![](./images/01_09.png)
 
 
 The most significant parameter of a tokenizer is the final number of tokens it has learned. It affects the average length of the resulting tokens. [State-of-the-art models](https://arxiv.org/pdf/1810.04805.pdf) find the optimal value around 30k which affects the average token length of 3-4 characters.
@@ -203,16 +198,14 @@ Tokenizer of our pretained model gives the following output:
 
 <center>Figure 10. BERT Tokenizer.</center>
 
-![](https://i.imgur.com/7WYyvCR.png)
-
+![](./images/01_10.png)
 Right now before any evaluation, we can speculate a bit about possible Shapley values results. The main word that is shared between two sentences and refers to high semantic similarity is `ogrodowy`. Our tokenizer split this word into three tokens`['og', 'rod', 'owy']`.
 
 None of these tokens indicate any similarity to `ogród` on its own. Therefore we could suspect that we will not be getting much information by revealing and fixing a single token. Only after all the tokens are revealed we should be getting the contribution for the word. Based on this intuition we think that the contribution of the word `ogrodowy` will eventually be split almost equally between the tokens. Let us evaluate SHAP: 
 
 <center>Figure 11. SHAP contributions.</center>
 
-![](https://i.imgur.com/Nj1oXKW.png)
-
+![](./images/01_11.png)
 Our guess was correct, as we can see in figure 11 tokens `['og', 'rod', 'owy']` have been assigned equal contribution. If we had instead aggregated individual contributions, the word `ogrodowy` would have had the largest contribution to the model prediction. We consider it an important issue as it makes interpretation of the explanations much harder and maybe also more inaccurate.
 
 #### Owen values
@@ -227,8 +220,7 @@ Let us re-run our example using Owen values with slightly modified grouping thre
 
 <center>Figure 12. OWEN contributions.</center>
 
-![](https://i.imgur.com/WNYvyrE.png)
-
+![](./images/01_12.png)
 It had the desired effect. One may argue that we could obtain similar results by aggregating tokens' scores, that correspond to the same word, to a single value. However, using heuristics for text clustering and then calculating Owen values reduce our time complexity to quadratic with respect to the number of input features. That differs significantly from exponential time and could be a deal-breaker in most real-world applications. 
 
 To conclude, the final results provide an insight into the model's decision mechanism. This simple explanation demonstrates that our model ground its prediction on the same words we humans find meaningful. 
@@ -245,8 +237,7 @@ Here are 3 example clusters with the top 5 best words generated by LIME and SHAP
 
 <center>Figure 13. Cluster comparison of LIME and SHAP.</center>
 
-![](https://i.imgur.com/JbYWt6R.png)
-
+![](./images/01_13.png)
 In both cases, the top 5 best words accurately describe the essence of the cluster. This allowed us to validate that clusters represent separate categories, instead of manually looking at all clusters, we simply looked at the top 5 best words per cluster. This certainly speeded up the debugging process and it can be even automated by checking whether the top 5 words per cluster are unique.
 
 ### Recomendation Interpretability
@@ -259,8 +250,7 @@ However, looking from a practical perspective, we claim that LIME is a better ch
 
 <center>Figure 14. Comparison of LIME and SHAP on a few product names.</center>
 
-![](https://i.imgur.com/ABJPPhj.png)
-
+![](./images/01_14.png)
 ## Business validation on historical data
 
 To provide the business insight we checked whether recommendations are consistent with historical purchases. For example, if products `A` and `B` were purchased together and our recommendation system recommends product `B` for product `A`, then we count it as a good recommendation. We tested our recommendation system on all 'recommendable' products - products that historically were purchased with at least one other product.
