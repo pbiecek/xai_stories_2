@@ -57,7 +57,10 @@ A rationale behinds this is that for strongly seasonal data the detrended time s
 
 Now it is time to answer the question of what period of times do we want to analyse. At first we thought about tracking the sales changes through the week, especially changes between working days and weekends. But let's plot the bar plot of mean number of sales for every weekday: 
 
-<img src='./images/02_week_seasonality.png'>
+```{r, out.width="700", fig.align="center", echo=FALSE}
+
+knitr::include_graphics('images/02_week_seasonality.png')
+```
 
 We were quite surprised by the fact that sales drop every day from Monday to Saturday. We were told by Shumee's representative that this is because some transaction have the delay between the payment and the confirmation from the bank. That is why some transactions actually made by customers on a weekend are not visible in Shumee's data until Monday. 
 
