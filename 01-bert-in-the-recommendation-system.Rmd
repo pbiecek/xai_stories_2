@@ -1,4 +1,4 @@
-# BERT in the recommendation system
+# Story: BERT in the recommendation system
 
 *Authors: Mikołaj Pacek, Mateusz Kierznowski, Piotr Nawrot, Robert Krawczyk*
 

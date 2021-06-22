@@ -1,6 +1,6 @@
 # Acknowledgements {-}
 
-This project is inspired by a fantastic book [Limitations of Interpretable Machine Learning Methods](https://compstat-lmu.github.io/iml_methods_limitations/) created at the Department of Statistics, LMU Munich. We used the LIML project as cornerstone for this reopsitory.
+This project is inspired by seminar-book [Limitations of Interpretable Machine Learning Methods](https://compstat-lmu.github.io/iml_methods_limitations/) created at the Department of Statistics, LMU Munich. We used the LIML project as cornerstone for [XAI stories](https://pbiecek.github.io/xai_stories) and [XAI stories 2](https://pbiecek.github.io/xai_stories_2/).
 
 This book would not have been written without openness to cooperation of two universities: University of Warsaw and University of Łódź. Students from these universities collaborated (remotely due to the Covid-19 epidemic) on their chapters.
 

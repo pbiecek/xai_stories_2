@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Story: BERT in the recommendation system | XAI Stories 2.0</title>
+  <meta name="description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Story: BERT in the recommendation system | XAI Stories 2.0" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/cover.png" />
+  <meta property="og:description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Story: BERT in the recommendation system | XAI Stories 2.0" />
+  
+  <meta name="twitter:description" content="eXplainable Artificial Intelligence for Retail Analytics" />
+  <meta name="twitter:image" content="/images/cover.png" />
+
+
+
+<meta name="date" content="2021-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="foreword.html"/>
+<link rel="next" href="story-seasonal-products.html"/>
+<script src="libs/header-attrs/header-attrs.js"></script>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><h3>XAI Stories 2.0</h3> Case studies for retail analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html"><i class="fa fa-check"></i>Foreword</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="foreword.html"><a href="foreword.html#why"><i class="fa fa-check"></i><b>0.1</b> Why?</a></li>
+<li class="chapter" data-level="0.2" data-path="foreword.html"><a href="foreword.html#what"><i class="fa fa-check"></i><b>0.2</b> What?</a></li>
+<li class="chapter" data-level="0.3" data-path="foreword.html"><a href="foreword.html#how"><i class="fa fa-check"></i><b>0.3</b> How?</a></li>
+<li class="chapter" data-level="0.4" data-path="foreword.html"><a href="foreword.html#about-academic-partners"><i class="fa fa-check"></i><b>0.4</b> About academic partners</a></li>
+<li class="chapter" data-level="0.5" data-path="foreword.html"><a href="foreword.html#about-business-partner"><i class="fa fa-check"></i><b>0.5</b> About business partner</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html"><i class="fa fa-check"></i><b>1</b> Story: BERT in the recommendation system</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#data-preprocessing"><i class="fa fa-check"></i><b>1.2</b> Data preprocessing</a></li>
+<li class="chapter" data-level="1.3" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#pipeline"><i class="fa fa-check"></i><b>1.3</b> Pipeline</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#bert"><i class="fa fa-check"></i><b>1.3.1</b> BERT</a></li>
+<li class="chapter" data-level="1.3.2" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#clustering"><i class="fa fa-check"></i><b>1.3.2</b> Clustering</a></li>
+<li class="chapter" data-level="1.3.3" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#recommendation"><i class="fa fa-check"></i><b>1.3.3</b> Recommendation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#explanations"><i class="fa fa-check"></i><b>1.4</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#lime"><i class="fa fa-check"></i><b>1.4.1</b> LIME</a></li>
+<li class="chapter" data-level="1.4.2" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#shap"><i class="fa fa-check"></i><b>1.4.2</b> SHAP</a></li>
+<li class="chapter" data-level="1.4.3" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#cluster-interpretability"><i class="fa fa-check"></i><b>1.4.3</b> Cluster Interpretability</a></li>
+<li class="chapter" data-level="1.4.4" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#recomendation-interpretability"><i class="fa fa-check"></i><b>1.4.4</b> Recomendation Interpretability</a></li>
+<li class="chapter" data-level="1.4.5" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#percent-of-correct-recommendations"><i class="fa fa-check"></i><b>1.4.5</b> Percent of Correct Recommendations</a></li>
+<li class="chapter" data-level="1.4.6" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#value-added"><i class="fa fa-check"></i><b>1.4.6</b> Value Added</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#conclusions-and-next-steps"><i class="fa fa-check"></i><b>1.5</b> Conclusions and next steps</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#changing-preprocessing"><i class="fa fa-check"></i><b>1.5.1</b> Changing preprocessing</a></li>
+<li class="chapter" data-level="1.5.2" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#comparing-explanations-with-lipschitzs-method"><i class="fa fa-check"></i><b>1.5.2</b> Comparing explanations with Lipschitz’s method</a></li>
+<li class="chapter" data-level="1.5.3" data-path="story-bert-in-the-recommendation-system.html"><a href="story-bert-in-the-recommendation-system.html#ab-testing"><i class="fa fa-check"></i><b>1.5.3</b> AB testing</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html"><i class="fa fa-check"></i><b>2</b> Story: Seasonal products</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#the-most-seasonal-products"><i class="fa fa-check"></i><b>2.2</b> The most seasonal products</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#data-representation"><i class="fa fa-check"></i><b>2.2.1</b> Data representation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#seasonality-measure"><i class="fa fa-check"></i><b>2.2.2</b> Seasonality measure</a></li>
+<li class="chapter" data-level="2.2.3" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#what-kind-of-seasonality"><i class="fa fa-check"></i><b>2.2.3</b> What kind of seasonality?</a></li>
+<li class="chapter" data-level="2.2.4" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#the-most-seasonal-products-1"><i class="fa fa-check"></i><b>2.2.4</b> The most seasonal products</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#model-for-predicting-future-sales"><i class="fa fa-check"></i><b>2.3</b> Model for predicting future sales</a></li>
+<li class="chapter" data-level="2.4" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#model-explanation"><i class="fa fa-check"></i><b>2.4</b> Model Explanation</a></li>
+<li class="chapter" data-level="2.5" data-path="story-seasonal-products.html"><a href="story-seasonal-products.html#data-preprocessing-1"><i class="fa fa-check"></i><b>2.5</b> Data preprocessing</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html"><i class="fa fa-check"></i><b>3</b> Story: Embedding-based model for product recommendations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#model"><i class="fa fa-check"></i><b>3.2</b> Model</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#dataset-and-pre-processing"><i class="fa fa-check"></i><b>3.2.1</b> Dataset and pre-processing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#explanations-1"><i class="fa fa-check"></i><b>3.3</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#lime-1"><i class="fa fa-check"></i><b>3.3.1</b> Lime</a></li>
+<li class="chapter" data-level="3.3.2" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#shap-1"><i class="fa fa-check"></i><b>3.3.2</b> Shap</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="story-embedding-based-model-for-product-recommendations.html"><a href="story-embedding-based-model-for-product-recommendations.html#summary-and-conclusions"><i class="fa fa-check"></i><b>3.4</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html"><i class="fa fa-check"></i><b>4</b> Story: Sales Prediction</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#data"><i class="fa fa-check"></i><b>4.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#overview"><i class="fa fa-check"></i><b>4.2.1</b> Overview</a></li>
+<li class="chapter" data-level="4.2.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#assigning-missing-categories"><i class="fa fa-check"></i><b>4.2.2</b> Assigning missing categories</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#long-term-sales-forecasting"><i class="fa fa-check"></i><b>4.3</b> Long-term sales forecasting</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#model-description"><i class="fa fa-check"></i><b>4.3.1</b> Model description</a></li>
+<li class="chapter" data-level="4.3.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#model-explanations"><i class="fa fa-check"></i><b>4.3.2</b> Model explanations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#short-term-sales-forecasting"><i class="fa fa-check"></i><b>4.4</b> Short-term sales forecasting</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#models-description"><i class="fa fa-check"></i><b>4.4.1</b> Models’ description</a></li>
+<li class="chapter" data-level="4.4.2" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#results"><i class="fa fa-check"></i><b>4.4.2</b> Results</a></li>
+<li class="chapter" data-level="4.4.3" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#models-explanations"><i class="fa fa-check"></i><b>4.4.3</b> Models’ explanations</a></li>
+<li class="chapter" data-level="4.4.4" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#why-dont-we-use-short-term-regression-model-instead"><i class="fa fa-check"></i><b>4.4.4</b> Why don’t we use short-term regression model instead</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="story-sales-prediction.html"><a href="story-sales-prediction.html#summary-and-conclusions-1"><i class="fa fa-check"></i><b>4.5</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html"><i class="fa fa-check"></i><b>5</b> Story: Temperature vs sales prediction</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#model-1"><i class="fa fa-check"></i><b>5.2</b> Model</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#product-categories"><i class="fa fa-check"></i><b>5.2.1</b> Product Categories</a></li>
+<li class="chapter" data-level="5.2.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#training-and-testing-procedure"><i class="fa fa-check"></i><b>5.2.2</b> Training and testing procedure</a></li>
+<li class="chapter" data-level="5.2.3" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#evaluated-models"><i class="fa fa-check"></i><b>5.2.3</b> Evaluated models</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#explanations-2"><i class="fa fa-check"></i><b>5.3</b> Explanations</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#instance-level-explanations-2"><i class="fa fa-check"></i><b>5.3.1</b> Instance-level explanations</a></li>
+<li class="chapter" data-level="5.3.2" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#model-level-explanations"><i class="fa fa-check"></i><b>5.3.2</b> Model-level explanations</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="story-temperature-vs-sales-prediction.html"><a href="story-temperature-vs-sales-prediction.html#summary-and-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Summary and conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">XAI Stories 2.0</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="story-bert-in-the-recommendation-system" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Story: BERT in the recommendation system</h1>
+<p><em>Authors: Mikołaj Pacek, Mateusz Kierznowski, Piotr Nawrot, Robert Krawczyk</em></p>
+<p><em>Mentors: Michał Miktus (McKinsey &amp; Company)</em></p>
+<div id="introduction" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Introduction</h2>
+<p>E-commerce is one of the fastest-growing branches of business. Especially after the global pandemic, which has resulted in the transfer of a large proportion of sales to the internet and permanently changed consumers’ habits.</p>
+<p>Every website offers thousands or millions of products. Matching the customer basket of goods is important and difficult. That is why every e-commerce company needs a perfectly fitted <a href="https://en.wikipedia.org/wiki/Recommender_system">recommendation system</a>, specially customized for their needs.</p>
+<p>The next important tool after the recommendation system is <a href="https://en.wikipedia.org/wiki/Explainable_artificial_intelligence">XAI</a>. It helps in building trust for decisions made by the recommendation system and allows for faster and more interpretable debugging.</p>
+<p><a href="https://shumee.pl/">Shumee</a> is a fast-growing e-commerce start-up. In order to conquer the market, it needs to create a technological advantage over other e-commerce companies.</p>
+<p>In the dataset of Shumee’s historical sales, there are only 7% of orders with more than 1 product. The recommendation system could help increase this number, which would lead to a bigger income.</p>
+<p>The first step was cleaning the data. Then by using <a href="https://en.wikipedia.org/wiki/BERT_(language_model)">BERT</a> we understood every product’s name, which allowed us to divide them into separate clusters.</p>
+<p>The most important step in our work was to understand correctly the recommendation system. We used the two most popular approaches to model explanations - LIME and SHAP. It helped us to explain the performance of the recommendation system and highlight the differences between those two systems. In our case, LIME proved to be better for <a href="https://en.wikipedia.org/wiki/Neuro-linguistic_programming">NLP</a>.</p>
+<p>The last step was to rate our model by using two metrics - percent of correct recommendations and value added, which means how much Shumee could gain with using our recommendations.</p>
+<p>Based on these metrics we claim that our recommendation system works <code>20x better</code> than random recommendations and it could be responsible for <code>83000PLN</code> of Shumee’s income in 2020.</p>
+<p>After all these steps we confirmed that our model is built well. We understood how it works, how it divides the clusters, or where it sees the connection between products. It is crucial from a business point of view, because it allows being sure, that it is not only working but it could be used it properly from a business point of view.</p>
+</div>
+<div id="data-preprocessing" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Data preprocessing</h2>
+<p>Data cleaning is a crucial step in machine learning, especially in NLP. Without the data preprocessing, the dataset is often a cluster of words that the computer does not understand. Thus we have created the pipeline to clean the data to create efficient clustering.</p>
+<p>Preprocessing pipeline consists of:</p>
+<ul>
+<li>lowercasing all words</li>
+<li>removing size of the product (eg. <strong>10</strong> meters )</li>
+<li>removing length units (eg. 10 <strong>meters</strong>, <strong>szt</strong>)</li>
+<li>removing special marks (eg. “,” or “-”)</li>
+<li>removing brands from product descriptions (e.g. <strong>Pepco</strong>)</li>
+</ul>
+<center>
+Figure 1. Examples of data preprocessing.
+</center>
+<p><img src="images/01_01.png" /></p>
+<p>Figure 1 shows examples of product names before and after preprocessing. We chose to remove those features because we wanted our model to distinguish products based on their high-level semantic meaning and not based on very specific parameters such as the exact size of a chair (61x70x74cm).</p>
+</div>
+<div id="pipeline" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Pipeline</h2>
+<p>Our main target is to build a pipeline, which could recommend products similar to products in the basket. The pipeline consist of 3 steps:
+- word2vec (BERT)
+- clustering
+- recommendation</p>
+<div id="bert" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> BERT</h3>
+<p><a href="https://arxiv.org/pdf/1810.04805.pdf&amp;usg=ALkJrhhzxlCL6yTht2BRmH9atgvKFxHsxQ">BERT</a> stands for Bidirectional Encoder Representations from Transformers. That language model can manage the ambiguity of the text by following steps. Firstly BERT is based on the Transformer architecture, which means that model adopts the mechanism of attention, weighing the influence of different parts of the input data. Secondly, BERT is deeply bidirectional which means that it learns information from both the left and the right sides of a word’s context during the training. The bidirectionality of the model is extremely important in understanding the context of a sentence. Provided illustration in figure 2 shows how BERT understands the context bidirectionally.</p>
+<center>
+Figure 2. BERT’s understanding of the context.
+</center>
+<img src="images/01_02.png" />
+<center>
+Source: <a href="https://www.analyticsvidhya.com/blog/2019/09/demystifying-bert-groundbreaking-nlp-framework/" class="uri">https://www.analyticsvidhya.com/blog/2019/09/demystifying-bert-groundbreaking-nlp-framework/</a>
+</center>
+<p>We used BERT to provide word embeddings for every product name within the data. Word embedding is a method used to represent discrete variables as continuous vectors. Thus words that are closer in the vector space are expected to be similar in their meaning. The quality of embedded words is vastly important in the following clustering phase. In our work, we used <a href="https://pypi.org/project/sentence-transformers/">sentence_transformers</a> module to provide the BERT model.</p>
+</div>
+<div id="clustering" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Clustering</h3>
+<p>Once we had a representation of products in the vector space we wanted to cluster them. The embeddings we got from BERT have a property, that semantically similar sentences are mapped to vectors that are close to each other. The intuition behind clustering is that we want to create groups of products that are similar to each other. However, it is not obvious how big such clusters should be.</p>
+<div id="metrics" class="section level4" number="1.3.2.1">
+<h4><span class="header-section-number">1.3.2.1</span> Metrics</h4>
+<p>We defined 2 metrics that helped us to decide whether given clustering is satisfactory.</p>
+<ul>
+<li><code>Percent of orders inside clusters</code> - Historical orders contain multiple products. We count how many orders are fully contained in one cluster.</li>
+<li><code>Scraped categories fit</code> - We scraped ‘path’ of business categories for each product in the dataset (for example product <code>Półki ścienne</code> has following path <code>['Dom i ogród', 'Dom, mieszkanie', 'Regały']</code>). Then for each cluster, we look at the most popular business category and check what percentage of the cluster is covered by this category. Then we average this value over all clusters.</li>
+</ul>
+<p>To gather business categories, we implemented a web scraper that searches products on <a href="https://www.mall.pl/">mall.pl</a> website and scraped their categories.</p>
+</div>
+<div id="grid-search" class="section level4" number="1.3.2.2">
+<h4><span class="header-section-number">1.3.2.2</span> Grid search</h4>
+<p>We chose 2 clustering algorithms (<a href="https://en.wikipedia.org/wiki/K-means_clustering">KMeans</a> and <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">AglomerativeClustering</a>) and clustered the data with different hyperparameters (number of clusters). Then we plotted (Figure 3) metrics that we defined before. As the clustering algorithm for our pipeline, we chose <code>Agglomerative Clustering</code> because both metrics were a bit higher when compared with <code>KMeans</code>, however when it comes to choosing the number of clusters, plots show that there is a tradeoff between the two metrics. We chose <code>64</code> as a number of clusters because it balances metrics reasonably.</p>
+<center>
+Figure 3. Comparison of clustering methods.
+</center>
+<p><img src="images/01_03.png" /></p>
+</div>
+</div>
+<div id="recommendation" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Recommendation</h3>
+<p>Given a new product (its name), we pass it to the BERT to get its embedding, then we search for the closest cluster. Then we compute the probability distribution over products from the cluster based on historical occurrences of these products (if a product was purchased frequently, it has a higher chance of being recommended). To calculate the distribution we used <a href="https://en.wikipedia.org/wiki/Softmax_function">softmax</a> function. Then we sample products to recommend from this distribution. We can sample as many products as we want, but in our case, we chose to sample 3 recommendations. Figure 4 shows how our recommendation pipeline is trained and how it generates recommendations for new products.</p>
+<center>
+Figure 4. High level graph our recommendation system.
+</center>
+<p><img src="images/01_04.png" /></p>
+<p>Table 1 shows some example recommendations.</p>
+<center>
+Table 1. Example recommendations.
+</center>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="26%" />
+<col width="29%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Product</th>
+<th>Recommendation 1</th>
+<th>Recommendation 2</th>
+<th>Recommendation 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>biustonosz edyta biały rozmiar f</td>
+<td>biustonosz constanza rozmiar i</td>
+<td>pas do pończoch ze stringami demetria pink rozmiar xl</td>
+<td>biustonosz patricia biały rozmiar e</td>
+</tr>
+<tr class="even">
+<td>ogród roślina</td>
+<td>roślinka sztuczna cementowej doniczce</td>
+<td>pergola ogrodowa dla roślin pnących</td>
+<td>komplet pudeł a4 kwiaty</td>
+</tr>
+<tr class="odd">
+<td>krzesło</td>
+<td>elastyczny pokrowiec na fotel z dżerseju szary</td>
+<td>przenośny fotel kosmetyczny ekoskóra</td>
+<td>elastyczny pokrowiec na fotel z dżerseju beżowy</td>
+</tr>
+<tr class="even">
+<td>świeczka</td>
+<td>latarenka biała</td>
+<td>latarenka mdf beż</td>
+<td>kule świetlne led fioletowe</td>
+</tr>
+<tr class="odd">
+<td>stolik ogrodowy</td>
+<td>roślinka sztuczna cementowej doniczce</td>
+<td>obrzeża trawnikowe stal galwanizowana</td>
+<td>komplet pudeł a4 kwiaty</td>
+</tr>
+<tr class="even">
+<td>świeca walec biały</td>
+<td>latarenka biała</td>
+<td>kule świetlne led fioletowe</td>
+<td>świecznik metalowy biały</td>
+</tr>
+<tr class="odd">
+<td>żarówka edisona okrągła</td>
+<td>kule świetlne led fioletowe</td>
+<td>latarenka biała</td>
+<td>latarenka mdf beż</td>
+</tr>
+<tr class="even">
+<td>biustonosz glam iii bc rozmiar</td>
+<td>biustonosz ashley k451 rozmiar h</td>
+<td>biustonosz olga biały rozmiar e</td>
+<td>rajstopy satin kolor grafitto grafitowy rozmiar</td>
+</tr>
+<tr class="odd">
+<td>czarny koszyk</td>
+<td>koszyk na klamerki plastik rattan biały</td>
+<td>koszyk nylon size średni beżowy</td>
+<td>biały koszyk</td>
+</tr>
+<tr class="even">
+<td>kwiat czerwony w donicznce</td>
+<td>roślinka sztuczna cementowej doniczce</td>
+<td>furtka ogrodowa impregnowane drewno sosnowe fsc</td>
+<td>pergole ogrodowe wieże</td>
+</tr>
+<tr class="odd">
+<td>zestaw czarnych talerzy obiadowych</td>
+<td>mat stołowych wzór</td>
+<td>zestaw zakreślaczy</td>
+<td>tarka czteroboczna stalowa</td>
+</tr>
+<tr class="even">
+<td>shorty męskie zielone rozmiar m</td>
+<td>męskie rękawiczki czarne</td>
+<td>męski pasek biznesowy skórzany brązowy</td>
+<td>gra łowienie rybek rybki</td>
+</tr>
+<tr class="odd">
+<td>spodnie damskie rozmiar s</td>
+<td>spódnica dziewczęca czarny</td>
+<td>bluza dziewczęca szary melanżowy</td>
+<td>bluzka damska krótki rękaw xl niebieski</td>
+</tr>
+<tr class="even">
+<td>kawa w ziarnach</td>
+<td>stolik kawowy z drewna odzyskanego</td>
+<td>zaparzacz do kawy</td>
+<td>stolik kawowy z dolną półką mdf biały</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="explanations" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Explanations</h2>
+<p>We used the two most popular approaches to model explanations right now - LIME and SHAP. We used them in two ways. Firstly on a global level, we used explanations to validate whether clusters represent different semantic categories (for example we ensured that we did not have 4 clusters that contain chairs). Secondly, on a local level, we explain why a specific product was assigned to a specific cluster.</p>
+<p>Now we will describe how both methods were implemented in our setting. We found that traditional Shapley values are not suitable for our problem, instead, we used <a href="https://link.springer.com/article/10.1007/s10100-009-0100-8">Owen values</a>. The exact details of this choice will be explained in the next section.</p>
+<div id="lime" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> LIME</h3>
+<p><a href="https://arxiv.org/pdf/1602.04938.pdf?ref=morioh.com">LIME</a> is model-agnostic, meaning that it can be applied to any machine learning model. The technique attempts perturbing the input of data samples and understanding how the predictions change.</p>
+<p>In our case, LIME shows the contribution of each word (from product name) to its cluster. Thus LIME provides an insight that tells which words are important in a particular case. This provides local interpretability which can be further extended to determine the core words for every cluster.</p>
+<p>We applied the LIME method twice, firstly to a product bought by a user. Secondly to a recommended product. It provided information on why those products are in the same cluster, which explains the recommendation.</p>
+<p>Suppose the client wants to buy product named <code>siatka ogrodzeniowa metal + pcv rolka</code>. Firstly LIME can help to understand why this specific product is located in a particular cluster.</p>
+<center>
+Figure 5. LIME applied on the product name.
+</center>
+<p><img src="images/01_05.png" />
+Now we can ask the system about a recommendation for this product. Our model shows that <code>siatka ogrodzeniowa ocynkowana</code> is a proper recommendation. Secondly, we can use LIME to see contributions within the same cluster.</p>
+<center>
+Figure 6. LIME applied on the recommendation.
+</center>
+<p><img src="images/01_06.png" />
+These cases provide an insight that the word <code>ogrodzeniowa</code> connects these two sentences and it explains why our model recommended that specific product.</p>
+<p>As mentioned before, LIME contributions per word can be accumulated for a specific cluster. Thus LIME indicates words that have vast positive or negative contributions within the cluster.</p>
+<p>For cluster which is presented by the following figure 7.</p>
+<center>
+Figure 7. Example cluster.
+</center>
+<p><img src="images/01_07.png" />
+we cumulated LIME importance values for every word. LIME indicates five words that provide positive impact to the cluster:</p>
+<center>
+Figure 8. Top 5 best words in the cluster.
+</center>
+<p><img src="images/01_08.png" />
+The data shows that words connected to the light have a positive impact on the cluster. As we can see from figure 7 all sentences are in fact related to lamps and lights.</p>
+</div>
+<div id="shap" class="section level3" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span> SHAP</h3>
+<p><a href="https://papers.nips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf">SHAP (Shapley Additive exPlanations)</a> is a game-theoretic approach to explain the output of any machine learning model. It connects optimal feature importance scores with local accuracy of explanations using the classic Shapley values from game theory.</p>
+<p>In this work, we used <a href="https://github.com/slundberg/shap">python’s library</a> that supports deep learning models like BERT. It is an official implementation developed by the authors of the method.</p>
+<p>As a reminder to calculate Shapley values, we need to calculate the expected model output with only subset of features fixed to concrete values. In a standard approach to do so, we would have to iterate over the whole dataset and perform a massive amount of computations. In a worst-case scenario, the complexity would be exponential with respect to the number of features. Therefore authors of the library provide multiple ways of approximating Shapley values depending on what model we use and what type of data we explain. The one that we are going to focus on in the following chapters will be a partition method with the use of Owen values.</p>
+<div id="difference-in-explainable-space-between-shap-and-lime" class="section level4" number="1.4.2.1">
+<h4><span class="header-section-number">1.4.2.1</span> Difference in explainable space between SHAP and LIME</h4>
+<p>The LIME algorithm allows us to define an explainable space from which we sample an artificial dataset that is later used for training the glass-box model. The easiest approach for such space is to treat each word as a single binary feature and generate new observations by simply removing particular words.</p>
+<p>Such a trick may feel wrong if used in Shapley value evaluation. If we do that, we would explain a situation where a word has not ever existed rather than it was not fixed to a certain value.</p>
+<p>To address this issue authors of the SHAP method have found a workaround that applies specifically for BERT. Instead of removing the word completely, we change the examined feature to a special MASK word used in BERT pre-training.</p>
+<p>In theory, this MASK word should represent the probability distribution, learned from the training set, of all possible words that could exist in the surrounding context. Such distribution minimizes the objective function of the BERT pre-training.</p>
+<p>To conclude, such representation gives information to BERT that some word exists covered under MASK word. Besides, we hypothesize that it should evaluate to Shapley values defined by expected value equations.</p>
+</div>
+<div id="tokenization" class="section level4" number="1.4.2.2">
+<h4><span class="header-section-number">1.4.2.2</span> Tokenization</h4>
+<p>BERT, as previously mentioned, is based on Transformer architecture. Its input is a sequence of tokens. Therefore we needed a way to transform the product description from our data to a sequence of tokens. A common way to do it is tokenization using a pre-trained tokenizer.</p>
+<p>Tokenization is essentially splitting a phrase, sentence, paragraph, or an entire text document into smaller units, such as individual words or terms. Each of these smaller units is called a token.</p>
+<center>
+Figure 9. Tokenization.
+</center>
+<p><img src="images/01_09.png" /></p>
+<p>The most significant parameter of a tokenizer is the final number of tokens it has learned. It affects the average length of the resulting tokens. <a href="https://arxiv.org/pdf/1810.04805.pdf">State-of-the-art models</a> find the optimal value around 30k which affects the average token length of 3-4 characters.</p>
+<p>The library that we used supplies coherence between BERT’s training and evaluation by using the same tokenizer. As a result, a single Polish word is split into a few, most commonly 2 or 3, tokens. Sometimes it happens that these tokens are not meaningful parts like the word’s semantic base.</p>
+<p>Let us investigate such a situation on an example. We want to find which features influence the model prediction that two sentences are similar. One sentence is used as a reference sequence and the second one we will be examining using SHAP.</p>
+<p>Reference sentence is:
+- <code>rattanowa huśtawka ogrodowa z daszkiem czarnym</code></p>
+<p>The product description used for investigation is:
+- <code>leżak ogrodowy z baldachimem polirattan czarny</code></p>
+<p>Tokenizer of our pretained model gives the following output:</p>
+<center>
+Figure 10. BERT Tokenizer.
+</center>
+<p><img src="images/01_10.png" />
+Right now before any evaluation, we can speculate a bit about possible Shapley values results. The main word that is shared between two sentences and refers to high semantic similarity is <code>ogrodowy</code>. Our tokenizer split this word into three tokens<code>['og', 'rod', 'owy']</code>.</p>
+<p>None of these tokens indicate any similarity to <code>ogród</code> on its own. Therefore we could suspect that we will not be getting much information by revealing and fixing a single token. Only after all the tokens are revealed we should be getting the contribution for the word. Based on this intuition we think that the contribution of the word <code>ogrodowy</code> will eventually be split almost equally between the tokens. Let us evaluate SHAP:</p>
+<center>
+Figure 11. SHAP contributions.
+</center>
+<p><img src="images/01_11.png" />
+Our guess was correct, as we can see in figure 11 tokens <code>['og', 'rod', 'owy']</code> have been assigned equal contribution. If we had instead aggregated individual contributions, the word <code>ogrodowy</code> would have had the largest contribution to the model prediction. We consider it an important issue as it makes interpretation of the explanations much harder and maybe also more inaccurate.</p>
+</div>
+<div id="owen-values" class="section level4" number="1.4.2.3">
+<h4><span class="header-section-number">1.4.2.3</span> Owen values</h4>
+<p><a href="https://link.springer.com/chapter/10.1007/978-3-642-45494-3_7">Owen values</a> is an extension of Shapley value for cooperative games when a particular coalition structure or partition of the set of players is considered in addition.</p>
+<p>Owen’s values are not popular in the machine learning field. However, based on their definition they should be what we have needed. A high-level overview of the method would go like this. First, we tokenize our input, then we define heuristics using which we do the hierarchic clustering and calculate Shapley values for found coalition structures.</p>
+<p>Coalition structures that we refer to are words or even larger coherent parts of the product description.</p>
+<p>Let us re-run our example using Owen values with slightly modified grouping threshold parameter.</p>
+<center>
+Figure 12. OWEN contributions.
+</center>
+<p><img src="images/01_12.png" />
+It had the desired effect. One may argue that we could obtain similar results by aggregating tokens’ scores, that correspond to the same word, to a single value. However, using heuristics for text clustering and then calculating Owen values reduce our time complexity to quadratic with respect to the number of input features. That differs significantly from exponential time and could be a deal-breaker in most real-world applications.</p>
+<p>To conclude, the final results provide an insight into the model’s decision mechanism. This simple explanation demonstrates that our model ground its prediction on the same words we humans find meaningful.</p>
+<p>From now on, every time we will mention SHAP, we will mean Owen values.</p>
+</div>
+</div>
+<div id="cluster-interpretability" class="section level3" number="1.4.3">
+<h3><span class="header-section-number">1.4.3</span> Cluster Interpretability</h3>
+<p>To capture the essence of each cluster and ensure that clustering is valid we provided global explanations, specifically, words that have the biggest meaning when it comes to determining whether a product belongs to a cluster.</p>
+<p>We did it by averaging the importance of each word in the cluster and picking words with the top 5 biggest values. In the case of LIME we calculated it for all products in the cluster and in the case of SHAP, we sampled products because SHAP is more computationally expensive.</p>
+<p>Here are 3 example clusters with the top 5 best words generated by LIME and SHAP.</p>
+<center>
+Figure 13. Cluster comparison of LIME and SHAP.
+</center>
+<p><img src="images/01_13.png" />
+In both cases, the top 5 best words accurately describe the essence of the cluster. This allowed us to validate that clusters represent separate categories, instead of manually looking at all clusters, we simply looked at the top 5 best words per cluster. This certainly speeded up the debugging process and it can be even automated by checking whether the top 5 words per cluster are unique.</p>
+</div>
+<div id="recomendation-interpretability" class="section level3" number="1.4.4">
+<h3><span class="header-section-number">1.4.4</span> Recomendation Interpretability</h3>
+<p>Having implemented and trained our model we have tested it on few random samples. The results that we have acquired looked very promising. However, to deploy the model for real-life challenges, we needed more assurance.</p>
+<p>We compared which words are highlighted by both methods. We report that both methods give consistent results. In both methods, words that are highlighted the most are the same.</p>
+<p>However, looking from a practical perspective, we claim that LIME is a better choice for local explanations because it is computationally cheaper than SHAP and it provides the same results.</p>
+<center>
+Figure 14. Comparison of LIME and SHAP on a few product names.
+</center>
+<p><img src="images/01_14.png" />
+## Business validation on historical data</p>
+<p>To provide the business insight we checked whether recommendations are consistent with historical purchases. For example, if products <code>A</code> and <code>B</code> were purchased together and our recommendation system recommends product <code>B</code> for product <code>A</code>, then we count it as a good recommendation. We tested our recommendation system on all ‘recommendable’ products - products that historically were purchased with at least one other product.</p>
+</div>
+<div id="percent-of-correct-recommendations" class="section level3" number="1.4.5">
+<h3><span class="header-section-number">1.4.5</span> Percent of Correct Recommendations</h3>
+<p>Our system correctly recommends <code>11%</code> of products <code>(440/3986)</code>. For comparison, we tested random recommendations and the results are <code>20</code> times lower. The random model correctly recommends<code>0.5%</code> of products <code>(19/3986)</code>.</p>
+</div>
+<div id="value-added" class="section level3" number="1.4.6">
+<h3><span class="header-section-number">1.4.6</span> Value Added</h3>
+<p>The next validation step was to describe the value-added from recommendations.
+In 2020 Shumee sold <code>111695</code> product. If we assume that half of the correctly recommended products will be bought by customers, the recommendation system will add over <code>83000</code> PLN (computed as a sum of recommended product values) income in the considered year.</p>
+</div>
+</div>
+<div id="conclusions-and-next-steps" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Conclusions and next steps</h2>
+<div id="changing-preprocessing" class="section level3" number="1.5.1">
+<h3><span class="header-section-number">1.5.1</span> Changing preprocessing</h3>
+<p>We believe that preprocessing data should also be a part of a machine learning pipeline and it should be validated. Decisions that are made at the beginning of the pipeline may have a big influence on the model (maybe the size of a product is an important feature when it comes to recommendation). Usually, those decisions are based on expert knowledge or sometimes they are made arbitrary. We tried to compare how preprocessing data changes what clusters emerge, but we did not give it enough attention to put those results in this paper.</p>
+</div>
+<div id="comparing-explanations-with-lipschitzs-method" class="section level3" number="1.5.2">
+<h3><span class="header-section-number">1.5.2</span> Comparing explanations with Lipschitz’s method</h3>
+<p>We used XAI methods to ensure the quality of a model. But how do we know whether the XAI methods that we used are robust, why should we trust them? To determine which XAI method (LIME or SHAP) is more robust we could use Lipschitz’s method that will measure how each XAI method changes its explanations when the data is slightly perturbed.</p>
+<p>In our case, this could be done by changing the colors of products (for example we change <code>zolty fotel</code> to <code>czerwony fotel</code>) and looking at the difference that it makes in importance values returned by LIME or SHAP. The algorithm with a smaller difference will be considered more robust.</p>
+</div>
+<div id="ab-testing" class="section level3" number="1.5.3">
+<h3><span class="header-section-number">1.5.3</span> AB testing</h3>
+<p>The real-world test for a recommendation system is AB testing. We divide users into two groups (A and B), then we use a recommendation system for users in group A and compare it with group B.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="foreword.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="story-seasonal-products.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/pbiecek/xai_stories_2/edit/master/01-bert-in-the-recommendation-system.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

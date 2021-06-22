@@ -1,10 +1,10 @@
 # Foreword {-}
 
-*Author: Przemyslaw Biecek ([University of Warsaw](https://www.mimuw.edu.pl/)*
+*Author: Przemyslaw Biecek ([University of Warsaw](https://www.mimuw.edu.pl/))*
 
 ## Why?
 
-In 2020, as part of the Interpretable Machine Learning course, students created XAI Stories, an ebook that collects the experiences of the subjects covered in the form of a series of chapters on different applications of XAI techniques.
+In 2020, as part of the Interpretable Machine Learning course, students created [XAI Stories](https://pbiecek.github.io/xai_stories), an ebook that collects the experiences of the subjects covered in the form of a series of chapters on different applications of XAI techniques.
 
 This was a great idea. Each team developed an interesting solution and then described it in a clear and interesting way. Some of these results were later presented at relevant industry conferences.
 
